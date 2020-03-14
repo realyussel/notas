@@ -1,0 +1,13 @@
+# gitignore: especifica los archivos que deben ser ignorados por Git
+edit/data/
+
+# Ignoramos todo sobre Composer
+!composer.json
+composer.lock
+composer.phar
+vendor/
+
+view/!composer.json
+view/composer.lock
+view/composer.phar
+view/vendor/
