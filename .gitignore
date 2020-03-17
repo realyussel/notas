@@ -1,5 +1,5 @@
 # gitignore: especifica los archivos que deben ser ignorados por Git
-edit/data/
+edit/data
 
 # Ignoramos todo sobre Composer
 !composer.json
