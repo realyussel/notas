@@ -4,10 +4,10 @@ edit/data
 # Ignoramos todo sobre Composer
 !composer.json
 composer.lock
-composer.phar
+# composer.phar # Para poder instalar en el servidor
 vendor/
 
 view/!composer.json
 view/composer.lock
-view/composer.phar
+# view/composer.phar # Para poder instalar en el servidor
 view/vendor/
