@@ -13,3 +13,4 @@ view/composer.lock
 view/composer.phar
 view/vendor/
 !view/deepwiki-themes/default/vendor/
+!view/deepwiki-themes/yussel/

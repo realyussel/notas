@@ -1,0 +1,17 @@
+{
+	"name": "DeepWiki Theme - Default",
+	"assets": {
+		"css": [
+			"build/bootstrap.min.css",
+			"build/main.min.css",
+			"build/signin.css",
+			"build/md.css"
+		],
+		"js": [
+			"build/jquery-3.4.1.slim.min.js",
+			"build/popper.min.js",
+			"build/bootstrap.min.js",
+			"build/main.min.js"
+		]
+	}
+}
