@@ -1,13 +1,15 @@
 # gitignore: especifica los archivos que deben ser ignorados por Git
 edit/data
 
+
 # Ignoramos todo sobre Composer
 !composer.json
 composer.lock
-# composer.phar # Para poder instalar en el servidor
+composer.phar
 vendor/
 
 view/!composer.json
 view/composer.lock
-# view/composer.phar # Para poder instalar en el servidor
+view/composer.phar
 view/vendor/
+!view/deepwiki-themes/default/vendor/
