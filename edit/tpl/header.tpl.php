@@ -156,7 +156,7 @@ window.addEventListener('load', function (){
                     
                     <li class="nav-item">
                         <span class="btn btn-light add-start-btn" data-type="quote" title="Cita">
-                            <img src="<?php echo URL_TPL; ?>img/editor/quote_3.svg" alt="Cita">
+                            <img src="<?php echo URL_TPL; ?>img/feather/terminal.svg" alt="Cita">
                         </span>
                     </li>
 
@@ -174,7 +174,7 @@ window.addEventListener('load', function (){
 
                     <li class="nav-item">
                         <span class="btn btn-light add-btn" data-type="strike" title="Tachado">
-                            <img src="<?php echo URL_TPL; ?>img/editor/strike.svg" alt="Tachado">
+                            <img src="<?php echo URL_TPL; ?>img/editor/strikethrough.svg" alt="Tachado">
                         </span>
                     </li>
 
@@ -186,15 +186,15 @@ window.addEventListener('load', function (){
 
                     <li class="nav-item">
                         <span class="btn btn-light add-btn" data-type="code-block" title="Código de bloque">
-                            <img src="<?php echo URL_TPL; ?>img/editor/code_2.svg" alt="Código de bloque">
+                            <img src="<?php echo URL_TPL; ?>img/feather/coffee.svg" alt="Código de bloque">
                         </span>
                     </li>
 
-                    <li class="nav-item">
+                    <!--li class="nav-item">
                         <span class="btn btn-light" id="add-code-block" title="Enlace">
                             <img src="<?php echo URL_TPL; ?>img/feather/link.svg" alt="Enlace">
                         </span>
-                    </li>
+                    </li-->
 
                 <li class="nav-item">
                     <a href="#" id="preview-button" class="btn btn-outline-secondary" title="Vista previa del apunte">

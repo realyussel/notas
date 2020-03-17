@@ -451,6 +451,14 @@ textarea, textarea:focus, textarea:active {
 .nav-item {
   position: relative; /* para sub-menus*/
 }
+.nav-item > .btn {
+    width: 38px;
+    height: 38px;
+    padding: 4px;
+}
+.nav-item > .btn#preview-button {
+    width: 46px;
+}
 .nav-item span img,
 .nav-item a img {
   max-height: 20px;
@@ -475,7 +483,7 @@ textarea, textarea:focus, textarea:active {
 #modal-header {
   width: 38px;
   height: 38px;
-  background-image: url('img/editor/tt_2.svg');
+  background-image: url('img/feather/type.svg');
   background-position: 8px;
   background-repeat: no-repeat;
   background-size: 20px 20px;

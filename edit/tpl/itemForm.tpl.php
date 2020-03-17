@@ -54,7 +54,7 @@ $title = $editItem?($isDir?'Editar Carpeta':'Editar Apunte'):($isDir?'Nueva Carp
     <div class="statblock__icon">
         <img src="tpl/img/feather/hash.svg" alt="">
     </div>
-    <p>Puede agregar un <span class="stat">identificador</span>, encerrado una cadena por un par de corchetes <code>[</code> y <code>]</code>.<br/><small>Internamente puede usar el identificador para crear un enlace relativo <code>[Enlace](#identificador)</code>.</p>
+    <p>Puede agregar un <span class="stat">identificador</span>, encerrado una cadena por un par de corchetes <code>[</code> y <code>]</code>.<br/><small>Internamente puede usar el identificador para crear un enlace relativo <code>[Enlace](#/identificador)</code>.</p>
 </div>
 
 <?php } include DIR_TPL.'footer.tpl.php'; ?>

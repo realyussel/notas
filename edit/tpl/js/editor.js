@@ -145,7 +145,6 @@ BaseEditor.prototype = {
                 this.addString.call(this, action);
                 e.preventDefault();
             }
-            autoExpand(e.target);
         }.bind(this)));
 
         this.addStartButton.forEach(el => el.addEventListener('click', function(e) {
@@ -154,7 +153,6 @@ BaseEditor.prototype = {
                 this.addStartString.call(this, action);
                 e.preventDefault();
             }
-            autoExpand(e.target);
         }.bind(this)));
     },
 
@@ -169,9 +167,10 @@ BaseEditor.prototype = {
     },
 
     matchString: function(start, text) {
-        this.editor.focus();
         this.editor.selectionStart = start;
         this.editor.selectionEnd = start + text.length;
+        this.editor.blur();
+        this.editor.focus();
     },
 
     addStartString: function(buttonType) {
@@ -211,7 +210,7 @@ BaseEditor.prototype = {
             var overall = 0;
             var i = 0;
             var split = text.split("\n");
-            while (overall < startPos) {
+            while (overall <= startPos) {
                 beginning = overall;
                 overall += split[i].length + 1;
                 i++;
@@ -251,7 +250,7 @@ BaseEditor.prototype = {
                 break;
             case 'code-block':
                 leftTag = '```\n';
-                rightTag = '\n``';
+                rightTag = '\n```';
                 innerText = 'Código de bloque';
                 break;
         }
