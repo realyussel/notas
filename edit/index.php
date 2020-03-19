@@ -216,7 +216,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'ajax') {
             
             if(!in_array(true, $errors)) {
                 if (ENV_CURRENT != ENV_DEMO) {
-                    $notebooks = $jotter->setNotebook($notebook['name'], $notebook['user'], $notebook['editor'], $notebook['safe'], $notebook['site_name'], $notebook['site_description'], $notebook['home_route'], $notebook['password'], $notebook['public_view'], $notebook['display_chapter'], $notebook['display_index'], $notebook['color']);
+                    $notebooks = $jotter->setNotebook($notebook['name'], $notebook['user'], $notebook['editor'], $notebook['safe'], $notebook['color'], $notebook['site_name'], $notebook['site_description'], $notebook['home_route'], $notebook['password'], $notebook['public_view'], $notebook['display_chapter'], $notebook['display_index']);
                 }
 
                 header('Location: '.URL.'?nb='.$notebookName);
@@ -375,7 +375,8 @@ if(!empty($_GET['action']) && $_GET['action'] == 'ajax') {
             'name' => urlencode($_POST['name']),
             'user' => $user['login'],
             'editor' => (isset($_POST['editor']) && $_POST['editor'] == 'wysiwyg')?$_POST['editor']:'markdown',
-            'safe' => isset($_POST['safe-wysiwyg'])
+            'safe' => isset($_POST['safe-wysiwyg']),
+            'color' => $_POST['color']
         );
 
         $errors['empty'] = empty($notebook['name']);
@@ -383,7 +384,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'ajax') {
 
         if(!in_array(true, $errors)) {
             if (ENV_CURRENT != ENV_DEMO) {
-                $notebooks = $jotter->setNotebook($notebook['name'], $notebook['user'], $notebook['editor'], $notebook['safe']);
+                $notebooks = $jotter->setNotebook($notebook['name'], $notebook['user'], $notebook['editor'], $notebook['safe'], $notebook['color']);
             }
 
             header('Location: '.URL.'?nb='.$notebook['name']);

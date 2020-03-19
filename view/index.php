@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 $handler = PhpConsole\Handler::getInstance();
 $handler->start(); // inicializar manejadores
 PhpConsole\Helper::register(); // registrará la clase global PC
