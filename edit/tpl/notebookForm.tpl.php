@@ -17,8 +17,14 @@ $title = $editNotebook?'Editar cuaderno':'Nuevo cuaderno';
 
             <div class="form-group row">
                 <label for="name" class="col-sm-2 col-form-label">Nombre</label>
-                <div class="col-sm-10">
+                <div class="col-sm-4">
                     <input id="name" class="form-control" name="name" type="text" value="<?php echo $editNotebook?$_GET['nb']:''; ?>" <?php echo $editNotebook?'readonly':'autofocus="autofocus"'; ?>>
+                </div>
+
+                <label for="color" class="col-sm-2 col-form-label">Color</label>
+                <div class="col-sm-4">
+                    <div id="evo-color" value="#48CFAD" ></div>
+                    <input id="color" class="form-control" name="color" type="hidden" value="#48CFAD">
                 </div>
             </div>
 
@@ -35,7 +41,7 @@ $title = $editNotebook?'Editar cuaderno':'Nuevo cuaderno';
             <div class="form-group row">
                 <label for="site_name" class="col-sm-2 col-form-label">Sitio web</label>
                 <div class="col-sm-4">
-                    <input id="site_name" class="form-control" name="site_name" type="text" value="<?php echo $editNotebook?$notebook["site_name"]:''; ?>" autofocus="autofocus">
+                    <input id="site_name" class="form-control" name="site_name" type="text" value="<?php echo $editNotebook?$editNotebook["site_name"]:''; ?>" autofocus="autofocus">
                 </div>
                 
                 <label for="site_description" class="col-sm-2 col-form-label">Descripción</label>

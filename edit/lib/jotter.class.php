@@ -35,7 +35,7 @@ class Jotter {
      * @param boolean $public Whether the notebook should be public or private
      * @return array          List of notebooks
      */
-    public function setNotebook($name, $user, $editor, $safe, $site_name = '', $site_description = '', $home_route = '', $password = '', $public_view = false, $display_chapter = false, $display_index = false, $public = false) {
+    public function setNotebook($name, $user, $editor, $safe, $site_name = '', $site_description = '', $home_route = '', $password = '', $public_view = false, $display_chapter = false, $display_index = false, $color = 'blue', $public = false) {
         if(strpos($name, '..') !== false) return false;
 
         $this->loadNotebooks();
@@ -75,6 +75,12 @@ class Jotter {
             ); // 'docs_path'  => '../edit/data/' . $user . notebook
         } else {
             // editing a notebook
+            
+            // Rename - No habilitar hasta resolver if anterior
+            // $this->notebooks[$user][$new_name] = $color;
+            // unset($this->notebooks[$user][$name]);
+            
+            $this->notebooks[$user][$name] = $color;
 
             //reorder notebooks
             Utils::natcaseksort($this->notebooks[$user]);

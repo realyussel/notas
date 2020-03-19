@@ -14,16 +14,18 @@
     <link rel="icon" type="image/png" href="<?php echo URL_TPL; ?>img/jotter-icon-16.png"/>
 
     <script src="<?php echo URL_TPL; ?>js/main.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <?php if($isNote && $isEditMode) { ?>
     <script src="<?php echo URL_TPL; ?>js/editor.js"></script>
 <?php if($isWysiwyg) { ?>
-    <script src="<?php echo URL_TPL; ?>js/ext/jquery-2.0.3.min.js"></script>
     <script src="<?php echo URL_TPL; ?>js/ext/jquery.hotkeys.js"></script>
     <script src="<?php echo URL_TPL; ?>js/ext/bootstrap.min.js"></script>
     <script src="<?php echo URL_TPL; ?>js/ext/bootstrap-wysiwyg.js"></script>
     <script src="<?php echo URL_TPL; ?>js/editor-wysiwyg.js"></script>
-
 <?php } //isWysiwyg ?>
+
     <script>
 window.addEventListener('load', function (){
     //instanciate editor tools
@@ -31,7 +33,10 @@ window.addEventListener('load', function (){
     editor.init();
 });
     </script>
-<?php } //isNote & isEditMode ?>
+<?php } else { ?>
+
+<?php } ?>
+
 </head>
 <body>
 
@@ -308,12 +313,11 @@ window.addEventListener('load', function (){
         <div class="item-menu">
             <img class="dropdown-arrow" src="<?php echo URL_TPL; ?>img/dropbox/overflow.svg" alt="...">
             <div class="dropdown closed">
-                <a class="dropdown-item" target="_blank" href="../view/index.php?nb=<?php echo $notebookName; ?>&amp;usr=<?php echo $user['login']; ?>" title="Ver cuaderno">
-                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/eye.svg" alt=""> Ver
-                </a>
-
                 <a class="dropdown-item" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=edit" title="Editar cuaderno">
                     <img class="icon" src="<?php echo URL_TPL; ?>img/feather/edit-3.svg" alt=""> Editar
+                </a>
+                <a class="dropdown-item" target="_blank" href="../view/index.php?nb=<?php echo $notebookName; ?>&amp;usr=<?php echo $user['login']; ?>" title="Ver cuaderno">
+                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/eye.svg" alt=""> Ver
                 </a>
                 <a class="dropdown-item" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=delete" title="Eliminar cuaderno">
                     <img class="icon" src="<?php echo URL_TPL; ?>img/feather/trash-2.svg" alt=""> Eliminar

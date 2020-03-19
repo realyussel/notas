@@ -1,5 +1,6 @@
 <?php
 require '../vendor/autoload.php';
+
 $handler = PhpConsole\Handler::getInstance();
 $handler->start(); // inicializar manejadores
 PhpConsole\Helper::register(); // registrará la clase global PC
@@ -207,7 +208,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'ajax') {
                 'public_view' => isset($_POST['public_view']),
                 'display_chapter' => isset($_POST['display_chapter']),
                 'display_index' => isset($_POST['display_index']),
-                
+                'color' => $_POST['color']
             );
 
             // $errors['empty'] = empty($notebook['name']);
@@ -215,7 +216,7 @@ if(!empty($_GET['action']) && $_GET['action'] == 'ajax') {
             
             if(!in_array(true, $errors)) {
                 if (ENV_CURRENT != ENV_DEMO) {
-                    $notebooks = $jotter->setNotebook($notebook['name'], $notebook['user'], $notebook['editor'], $notebook['safe'], $notebook['site_name'], $notebook['site_description'], $notebook['home_route'], $notebook['password'], $notebook['public_view'], $notebook['display_chapter'], $notebook['display_index']);
+                    $notebooks = $jotter->setNotebook($notebook['name'], $notebook['user'], $notebook['editor'], $notebook['safe'], $notebook['site_name'], $notebook['site_description'], $notebook['home_route'], $notebook['password'], $notebook['public_view'], $notebook['display_chapter'], $notebook['display_index'], $notebook['color']);
                 }
 
                 header('Location: '.URL.'?nb='.$notebookName);

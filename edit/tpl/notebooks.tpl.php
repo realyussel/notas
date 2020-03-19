@@ -9,13 +9,28 @@
     <div class="list-inline fl1 fs-body1">
 <?php
 if(!empty($notebooks[$user['login']])) {
-    foreach($notebooks[$user['login']] as $name => $notebook) {
+    $colors = [];
+
+    foreach($notebooks[$user['login']] as $name => $color) {
+        $class = str_replace("#", "", $color);
+
+        if (!is_int(__::search($colors, $class))) {
+            $colors = __::append($colors, $class);
+        }
+
 ?>
+        <a class="list-inline-item book-tag book-color-<?php echo $class; ?>" href="<?php echo URL.'?nb='.$name; ?>"><?php echo urldecode($name); ?></a>
+<?php }
 
-        <a class="list-inline-item post-tag" href="<?php echo URL.'?nb='.$name; ?>"><?php echo urldecode($name); ?></a>
-<?php } } ?>
+    echo "<style>";
+    foreach ($colors as $key => $value) {
+        list($r, $g, $b) = sscanf($value, "%02x%02x%02x");
+        echo ".book-color-" . $value . " { background-color: rgba(" . $r . "," . $g . "," . $b . ", 0.05); color: #" . $value . "; border-color: rgba(" . $r . "," . $g . "," . $b . ", 0.1); }";
+        echo ".book-color-" . $value . ":hover { background-color: #" . $value . "; }";
+    }
+    echo "</style>";
 
-        
+} ?>
     </div>
     <a class="btn btn-secondary my-2" href="?action=add">Comience un nuevo cuaderno</a>
 <?php include DIR_TPL.'footer.tpl.php'; ?>

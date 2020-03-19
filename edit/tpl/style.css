@@ -412,7 +412,10 @@ textarea, textarea:focus, textarea:active {
 .fl1 {
     flex: 1 auto !important;
 }
-.post-tag {
+#name {
+  background-color: #F5F7FA;
+}
+.book-tag {
     display: inline-block;
     padding: .4em .5em;
     margin: 2px 2px 2px 0;
@@ -424,29 +427,10 @@ textarea, textarea:focus, textarea:active {
     border-style: solid;
     border-radius: 3px;
     transition: all .15s ease-in-out;
-
-  color: #42ba96;
-  background-color: rgba(66,186,150,.1);
-  border-color: rgba(66,186,150,.1);
-
-  /*
-  color: #39739d;
-  background-color: #e1ecf4;
-  border-color: #e1ecf4;
-  */
 }
-.post-tag:hover {
-  text-decoration: none;
-  
-  color: #FFF;
-  background-color: #42ba96;
-  border-color: #42ba96;
-
-  /*
-  color: #32658a;
-  background-color: #cee0ed;
-  border-color: #cee0ed;
-  */
+.book-tag:hover {
+    text-decoration: none;
+    color: #FFF;
 }
 .nav-item {
   position: relative; /* para sub-menus*/
