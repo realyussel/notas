@@ -44,6 +44,7 @@ abstract class YosLogin {
      * @param string $sessionName base name for the PHP and the long-term sessions
      * @param int    $nbLTSession number of sumultaneous long-term sessions
      * @param int    $LTDuration  duration (in seconds) for long-term sessions
+     * 2592000 Second (s) = 30 Day (d)
      * @param int    $activateLog true to save very action to a log file
      * @param string $LTDir       optional: path to where the long-term sessions are stored (with trailing '/')
      */
@@ -86,7 +87,12 @@ abstract class YosLogin {
         session_set_cookie_params($cookie['lifetime'], $cookieDir, $_SERVER['SERVER_NAME']);
         
         // If allowed, shorten the PHP session to 10 minutes
-        ini_set('session.gc_maxlifetime', 600);
+        // 1440 segundos (24 minutos)
+        // 7200 segundos (dos horas, o 120 minutos)
+        // 65535 es el valor máximo, de tiempo que se puede mantener una sesión php.
+        ini_set('session.gc_maxlifetime', 65535);
+        // El valor 0 significa "hasta que el navegador se cierre"
+        ini_set('session.cookie_lifetime', 0);
         // Use cookies to store session.
         ini_set('session.use_cookies', 1);
         // Force cookies for session (phpsessionID forbidden in URL)

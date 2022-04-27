@@ -1,0 +1,261 @@
+.col-float {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* IE 10+ override */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+/* add styles here */
+    .col-float {
+    display: block;
+    }
+        
+}
+/* clear floats before and after */
+.col-float:before {
+    content: " ";
+    display: table;
+}
+.col-float:after {
+    clear: both;
+    content: " ";
+    display: table;
+}
+/* common column styles */
+.col-float .col {
+    float: left;
+  flex: 1 1 0;
+  display: inline-flex;
+  flex-flow: column wrap;
+  
+    margin-left: 2.564102564102564%;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+/* clear the left margin on the first column. Replaces the first class */
+.col-float .col:first-of-type {
+    margin-left: 0;
+}
+
+/* widths */
+/* ----- four columns ----- */
+/*with margin */
+.col-float.col-margin.cols-4 .col {
+  width: 23.076923076923077%;
+  flex: 0 1 23.076923076923077%;
+}  
+/* without margin */
+.col-float.cols-4 .col {
+  width: 25%;
+  flex: 0 1 25%;
+}
+/* ----- three columns ----- */
+/*with margin */
+.col-float.col-margin.cols-3 .col {
+  width: 31.623931623931625%;
+  flex: 0 1 31.623931623931625%;
+}
+/* without margin */
+.col-float.cols-3 .col {
+  width: 33.3333%;
+  flex: 0 1 33.3333%;
+}
+
+/* ----- two columns ----- */
+/*with margin */
+.col-float.col-margin.cols-2 .col {
+  width: 48.717948717948715%;
+  flex: 0 1 48.717948717948715%;
+}
+/* without margin */
+.col-float.cols-2 .col {
+  width: 50%;
+  flex: 0 1 50%;
+}
+
+/* put style on the proper column */
+.col-float.col-margin.cols-2 .col:nth-child(2n+3),
+.col-float.col-margin.cols-3 .col:nth-child(3n+4),
+.col-float.col-margin.cols-4 .col:nth-child(4n+5),
+.col-float.cols-2 .col:nth-child(2n+3),
+.col-float.cols-3 .col:nth-child(3n+4),
+.col-float.cols-4 .col:nth-child(4n+5) {
+    margin-left: 0;
+    clear: both;
+}
+@media only screen and (max-width: 1023px) {
+/* ======== products changes to 3 columns =========== */
+/* ----- change cols-4 to three columns ----- */
+/*with margin */
+.col-float.col-margin.cols-4 .col {
+  width: 31.623931623931625%;
+  flex: 0 1 31.623931623931625%;
+}
+/* without margin */
+.col-float.cols-4 .col {
+  width: 33.3333%;
+  flex: 0 1 33.3333%;
+}
+
+/* reset cols-4 */
+.col-float.col-margin.cols-4 .col:nth-child(4n+5) {
+    margin-left: 2.564102564102564%;
+    clear: none;
+}
+.col-float.cols-4 .col:nth-child(4n+5) {
+    margin-left: 0;
+    clear: none;
+}
+/* put style on the proper column */
+.col-float.col-margin.cols-4 .col:nth-child(3n+4),
+.col-float.cols-4 .col:nth-child(3n+4) {
+    margin-left: 0;
+    clear: both;
+}
+
+} /* / media 1023 */
+
+@media only screen and (max-width: 767px) {
+/* ======== products changes to 2 columns =========== */
+/* ----- change cols-4 and cols-3 to two columns ----- */
+/*with margin */
+.col-float.col-margin.cols-3 .col,
+.col-float.col-margin.cols-4 .col {
+  width: 48.717948717948715%;
+  flex: 0 1 48.717948717948715%;
+}
+/* without margin */
+.col-float.cols-3 .col,
+.col-float.cols-4 .col {
+  width: 50%;
+  flex: 0 1 50%;
+}
+
+
+/* reset cols-4 and cols-3 */
+.col-float.col-margin.cols-4 .col:nth-child(4n+5),
+.col-float.col-margin.cols-4 .col:nth-child(3n+4),
+.col-float.col-margin.cols-3 .col:nth-child(3n+4) {
+    margin-left: 2.564102564102564%;
+    clear: none;
+}
+.col-float.cols-4 .col:nth-child(4n+5),
+.col-float.cols-4 .col:nth-child(3n+4),
+.col-float.cols-3 .col:nth-child(3n+4) {
+    margin-left: 0;
+    clear: none;
+}
+/* put style on the proper column */
+.col-float.col-margin.cols-4 .col:nth-child(2n+3),
+.col-float.col-margin.cols-3 .col:nth-child(2n+3),
+.col-float.cols-4 .col:nth-child(2n+3),
+.col-float.cols-3 .col:nth-child(2n+3) {
+    margin-left: 0;
+    clear: both;
+    background: blue;
+}
+
+} /* / media 767 */
+
+@media only screen and (max-width: 500px) {
+
+/* ======== products changes to 1 columns =========== */
+/* ----- change cols-4, cols-3, and cols-2 to one column ----- */
+/*with or without margin */
+.col-float.col-margin.cols-4 .col,
+.col-float.col-margin.cols-3 .col,
+.col-float.col-margin.cols-2 .col,
+.col-float.cols-4 .col,
+.col-float.cols-3 .col,
+.col-float.cols-2 .col {
+  width: 100%;
+  flex: 0 1 100%;
+}
+.col-float.col-margin.cols-4 .col:nth-child(3n+4),
+.col-float.col-margin.cols-3 .col:nth-child(3n+4),
+.col-float.col-margin .col,
+.col-float .col {
+  margin-left: 0;
+  clear: both;
+}
+
+} /* / media 500 */
+
+
+.note {
+    --offset-multiplier: 4px;
+    -webkit-transition: -webkit-transform 0.6s ease;
+    transition: -webkit-transform 0.6s ease;
+    transition: transform 0.6s ease;
+    transition: transform 0.6s ease, -webkit-transform 0.6s ease;
+    --translate: 0;
+    -webkit-transform: translate(var(--translate), var(--translate));
+    transform: translate(var(--translate), var(--translate));
+}
+
+.note:hover {
+  text-decoration: none;
+    --offset-multiplier: 6px;
+    --translate: calc(-1px * (var(--notes) - 1));
+    -webkit-transition: -webkit-transform 0.3s ease;
+    transition: -webkit-transform 0.3s ease;
+    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+}
+
+.child {
+         height: 100%;   
+  border: 1px solid rgba(0,0,0,.125);
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px -4px 8px rgba(255, 255, 255, 0.8);
+    border-radius: 6px;
+    -webkit-transition: inherit;
+    transition: inherit;
+    --translate: calc(var(--offset) * var(--offset-multiplier));
+    -webkit-transform: translate(var(--translate), var(--translate));
+    transform: translate(var(--translate), var(--translate));
+    z-index: 5;
+}
+.child h4 {
+    margin-bottom: 20px;
+}
+.child small {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    float: right;
+}
+
+.child + .child  {
+  position: absolute;
+  width: 100%;
+  padding: 0;
+}
+  
+.child:nth-child(1) {
+    --offset: 0;
+    z-index: 4;
+}
+
+.child:nth-child(2) {
+    --offset: 1;
+    z-index: 3;
+}
+
+.child:nth-child(3) {
+    --offset: 2;
+    z-index: 2;
+}
+
+.child:nth-child(4) {
+    --offset: 3;
+    z-index: 1;
+}
+
+.child:nth-child(5) {
+    --offset: 4;
+    z-index: 0;
+}

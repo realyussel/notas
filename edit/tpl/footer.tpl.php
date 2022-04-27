@@ -1,17 +1,16 @@
 					</section>
-				</main>
-			</div>
+				</div> <!--app-->
+			</div> <!--bd-layout-->
 		</div>
 	</body>
-	<script src="../build/jquery-3.4.1.slim.min.js" type="text/javascript"></script>
-	<script src="../popper.min.js" type="text/javascript"></script>
-	<script src="../bootstrap.min.js" type="text/javascript"></script>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
 
 	<!-- COLOR -->
 	<link href="<?php echo URL_TPL; ?>css/ext/jquery-ui.css" rel="stylesheet" />
-    <script src="<?php echo URL_TPL; ?>js/ext/jquery-ui.min.js"></script>
-    <link href="<?php echo URL_TPL; ?>css/evol-colorpicker.min.css" rel="stylesheet" />
-    <script src="<?php echo URL_TPL; ?>js/evol-colorpicker.min.js"></script>
+  <script src="<?php echo URL_TPL; ?>js/ext/jquery-ui.min.js"></script>
+  <link href="<?php echo URL_TPL; ?>css/evol-colorpicker.min.css" rel="stylesheet" />
+  <script src="<?php echo URL_TPL; ?>js/evol-colorpicker.min.js"></script>
 
 	<script>
 		$(document).ready(function(){

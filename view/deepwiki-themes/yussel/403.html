@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-
-	<meta charset="UTF-8">
-	<title>Permiso denegado &raquo; {{site_name}}</title>
-	<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
-{{html_head}}
-
-</head>
-<body>
-
-	<header class="d-flex flex-column flex-md-row align-items-center p-1 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-	  <h5 class="my-0 mr-md-auto font-weight-normal"><a class="navbar-brand" href=".." ><i class="fa fa-chevron-left"></i> Usuarios</a></h5>
-	  <p class="p-2 m-0 text-dark hidden-xs">{{site_description}}</p>
-	</header>
-
-	<div class="container-fluid">
-
-		<div class="row">
-
-			<section id="wiki-404" class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" role="main">
-				<div class="alert alert-warning" role="alert">Permiso denegado.</div>
-			</section>
-
-		</div>
-
-	</div>
-
-	<footer id="wiki-footer" role="contentinfo">
+	<head>
+		<meta charset="UTF-8">
+		<title>Permiso denegado &raquo; {{site_name}}</title>
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		{{html_head}}
+	</head>
+	<body>
+		<header class="bg-dark text-white py-3 mb-3 border-bottom">
+			<div class="container-fluid d-grid align-items-center">
+				<div class="d-flex align-items-center">
+					<div class="d-flex mb-2 mb-lg-0">
+						<img src="dist/y-dark.svg" alt="" width="40" height="40" class="me-2">
+					</div>
+					<nav class="me-auto">
+						<ol class="di nav">
+							<li class="nav-item"><a href="../" class="nav-link px-2 text-white dim">Inicio</a></li>
+							<li class="nav-item"><span class="nav-link px-0 text-muted">/</span></li>
+							<li class="nav-item"><a href="../notebooks/?user={{copyright}}" class="nav-link px-2 text-white">{{copyright}}</a></li>
+							<li class="nav-item"><span class="nav-link px-0 text-muted">/</span></li>
+							<li class="nav-item"><a href="{{site_uri}}" class="nav-link px-3 text-white">{{site_name}}</a></li>
+						</ol>
+					</nav>
+					<a href="../edit" class="btn btn-outline-light text-end">Editor</a>
+				</div>
+			</div>
+		</header>
 		<div class="container-fluid">
-			<p class="text-muted">{{copyright}} {{logout_link}}</p>
+			<div class="row">
+				<section id="wiki-404" class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" role="main">
+					<div class="alert alert-warning" role="alert">Permiso denegado.</div>
+				</section>
+			</div>
+			<footer class="py-3 mt-5 text-muted border-top">
+				yussel.com.mx © 2022 {{body_footer}} {{logout_link}}
+			</footer>
 		</div>
-	</footer>
-
-{{body_footer}}
-
-</body>
+	</body>
 </html>

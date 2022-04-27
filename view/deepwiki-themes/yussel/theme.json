@@ -1,17 +1,19 @@
 {
-	"name": "DeepWiki Theme - Default",
+	"name": "Yussel Theme - Default",
 	"assets": {
 		"css": [
-			"build/bootstrap.min.css",
-			"build/main.min.css",
-			"build/signin.css",
-			"build/md.css"
+			"build/bootstrap/bootstrap.min.css",
+			"build/github/5.1.0/github-markdown.min.css",
+			"build/md.css",
+			"build/theme.css"
+		],
+		"head-js": [
+			"build/dist/mermaid.js"
 		],
 		"js": [
-			"build/jquery-3.4.1.slim.min.js",
-			"build/popper.min.js",
-			"build/bootstrap.min.js",
-			"build/main.min.js"
+			"build/jquery/jquery-3.6.0.min.js",
+			"build/bootstrap/bootstrap.bundle.min.js",
+			"build/theme.js"
 		]
 	}
 }

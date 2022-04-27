@@ -26,7 +26,6 @@ BaseEditor.prototype = {
 
         this.addButton = document.querySelectorAll('.add-btn');
         this.addStartButton = document.querySelectorAll('.add-start-btn');
-
         this.modalHeader = document.getElementById('modal-header');
         this.menuHeader = document.getElementById('menu-header');
 
@@ -48,6 +47,10 @@ BaseEditor.prototype = {
                 }
             } else if (e.ctrlKey && e.keyCode == 'B'.charCodeAt(0)) {
                 this.addString.call(this, 'bold');
+            } else if (e.ctrlKey && e.keyCode == 'I'.charCodeAt(0)) {
+                this.addString.call(this, 'italic');
+            } else if (e.ctrlKey && e.keyCode == 'T'.charCodeAt(0)) {
+                this.addString.call(this, 'strike');
             }
         }.bind(this));
 
