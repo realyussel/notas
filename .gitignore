@@ -1,5 +1,6 @@
 # gitignore: especifica los archivos que deben ser ignorados por Git
 edit/data
+edit/cache
 *errors.log
 
 # Ignoramos todo sobre Composer
