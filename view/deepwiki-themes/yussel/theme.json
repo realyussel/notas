@@ -14,6 +14,13 @@
 			"build/jquery/jquery-3.6.0.min.js",
 			"build/bootstrap/bootstrap.bundle.min.js",
 			"build/theme.js"
+		],
+		"404-js": [
+			"build/lottie/lottie-animator.js",
+			"build/lottie/lottie-anim-site-connection-timeout.js"
+		],
+		"404-css": [
+			"build/lottie/lottie-animation.css"
 		]
 	}
 }

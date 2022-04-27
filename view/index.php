@@ -48,9 +48,11 @@ class Deepwiki {
 
 		// components
 
+		// require 'vendor/erusev/parsedown/Parsedown.php';
 		require 'dist/Parsedown.php';
 		require 'vendor/erusev/parsedown-extra/ParsedownExtra.php';
-		require 'vendor/benjaminhoegh/parsedown-extended/ParsedownExtended.php';
+		// require 'vendor/benjaminhoegh/parsedown-extended/ParsedownExtended.php';
+		require 'dist/ParsedownExtended.php';
 
 		$this->loadConfig();
 
@@ -807,6 +809,7 @@ class DeepwikiTemplate {
 			->setPart('site_description', '')
 			->setPart('site_uri', '')
 			->setPart('html_head', '')
+			->setPart('head_404', '')
 			->setPart('nav', '')
 			->setPart('doc_title', '')
 			->setPart('doc_heading', '')
@@ -821,7 +824,7 @@ class DeepwikiTemplate {
 
 	public function compile() {
 		// fill the rest of template parts
-		$part_html_head = $part_body_footer = $part_login_form = array();
+		$part_html_head = $part_body_footer = $part_head_404 = $part_login_form = array();
 
 		foreach ($this->config['assets']['css'] as $entry) {
 			$part_html_head[] = sprintf('<link rel="stylesheet" type="text/css" href="%s" />' . PHP_EOL, $this->root_uri . '/' . $entry);
@@ -833,6 +836,14 @@ class DeepwikiTemplate {
 
 		foreach ($this->config['assets']['js'] as $entry) {
 			$part_body_footer[] = sprintf('<script type="text/javascript" src="%s"></script>' . PHP_EOL, $this->root_uri . '/' . $entry);
+		}
+
+		foreach ($this->config['assets']['404-js'] as $entry) {
+			$part_head_404[] = sprintf('<script type="text/javascript" src="%s"></script>' . PHP_EOL, $this->root_uri . '/' . $entry);
+		}
+
+		foreach ($this->config['assets']['404-css'] as $entry) {
+			$part_head_404[] = sprintf('<link rel="stylesheet" type="text/css" href="%s" />' . PHP_EOL, $this->root_uri . '/' . $entry);
 		}
 
 		$part_login_form = array(
@@ -848,6 +859,7 @@ class DeepwikiTemplate {
 		);
 		$this
 			->setPart('html_head', implode(PHP_EOL, $part_html_head))
+			->setPart('head_404', implode(PHP_EOL, $part_head_404))
 			->setPart('body_footer', implode(PHP_EOL, $part_body_footer))
 			->setPart('login_form', implode(PHP_EOL, $part_login_form));
 		// compile template

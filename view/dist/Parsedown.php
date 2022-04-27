@@ -1309,7 +1309,7 @@ class Parsedown {
 			$Element = $this->sanitiseElement($Element);
 		}
 
-		$markup = '<' . $Element['name'];
+		$markup = '<' . (empty($Element['name']) ? 'span' : $Element['name']);
 
 		if (isset($Element['attributes'])) {
 			foreach ($Element['attributes'] as $name => $value) {
@@ -1479,7 +1479,7 @@ class Parsedown {
 	# Read-Only
 
 	protected $specialCharacters = array(
-		'\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!', '|',
+		'\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '>', '#', '+', '-', '.', '!', '|', ':',
 	);
 
 	protected $StrongRegex = array(

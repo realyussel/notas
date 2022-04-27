@@ -63,8 +63,55 @@ kbd {
     white-space: nowrap;
 }
 
+/**
+
+  CHECKBOX-LIST
+
+ */
+
 ul.checkbox-list {
   list-style-type: none;
   padding: 0;
   list-style: none;
+}
+
+input[type=checkbox] {
+  position: relative;
+  margin: 4px;
+}
+
+input[type=checkbox] + label {
+  padding-left: 8px;
+}
+
+input[type=checkbox]:before {
+  content: " ";
+  background: white;
+  border: 2px solid #ddd;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+}
+
+input[type=checkbox]:checked:before {
+  background: #009688;
+  border-color: #1a998a;
+}
+
+input[type=checkbox]:checked:after {
+  content: " ";
+  box-sizing: content-box;
+  background: transparent;
+  border-left: 0.2rem solid white;
+  border-bottom: 0.2rem solid white;
+  position: absolute;
+  top: 5%;
+  left: 10%;
+  width: 60%;
+  height: 30%;
+  z-index: 2;
+  transform: rotate(-45deg);
 }
