@@ -48,7 +48,7 @@ $usuarios = json_decode(file_get_contents($base_root . '/users.json'));
   <main>
     <div class="row g-5">
       <div class="col-md-6">
-        <div class="h-100 p-5 text-white bg-dark rounded-3">
+        <div class="h-100 p-5 text-white bg-dark bg-topography rounded-3">
           <h2>Yotter</h2>
           <p>Sólo una app para tomar notas o apuntes de forma fácil y rápida.</p>
           <a class="btn btn-outline-light" type="button" href="edit">Editor</a>

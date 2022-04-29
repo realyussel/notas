@@ -50,7 +50,8 @@ class Deepwiki {
 
 		// require 'vendor/erusev/parsedown/Parsedown.php';
 		require 'dist/Parsedown.php';
-		require 'vendor/erusev/parsedown-extra/ParsedownExtra.php';
+		// require 'vendor/erusev/parsedown-extra/ParsedownExtra.php';
+		require 'dist/ParsedownExtra.php';
 		// require 'vendor/benjaminhoegh/parsedown-extended/ParsedownExtended.php';
 		require 'dist/ParsedownExtended.php';
 

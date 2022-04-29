@@ -1133,6 +1133,21 @@ class ParsedownExtended extends DynamicParent {
 					],
 				];
 			}
+			// Style markdown Notices
+			if (strpos($lang, 'callout') !== false) {
+				return [
+					'char' => $marker,
+					'openerLength' => $openerLength,
+					'element' => [
+						'name' => 'div',
+						'handler' => 'lines',
+						'text' => $Element,
+						'attributes' => [
+							'class' => 'callout shadow-sm ' . $lang,
+						],
+					],
+				];
+			}
 		}
 
 		return $block;
