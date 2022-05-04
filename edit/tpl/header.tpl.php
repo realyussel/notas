@@ -255,10 +255,7 @@
 <?php if (!empty($notebooks[$user['login']])) {
 	foreach ($notebooks[$user['login']] as $key => $value) {?>
         <option value="<?php echo $key; ?>"><?php echo urldecode($key); ?></option>
-    <?php
-}
-}
-?>
+<?php }}?>
                 </optgroup>
                 <option value="!new!">&raquo; Crea un nuevo cuaderno</option>
             </select>
@@ -266,16 +263,30 @@
 
 <?php if (isset($notebook['tree'])) {
 	?>
-
-    <div class="nb-header">
-
-        <h3 <?php if (empty($_GET['item'])) {echo ' id="selected"';}?> data-path="">
-            <a class="item nav-link link-dark" id="notebookTitle" href="?nb=<?php echo $notebookName; ?>" data-name="<?php echo $notebookName; ?>"><?php echo urldecode($notebookName); ?></a>
-        </h3>
-    </div>
+<div class="nb-header">
+    <h3 <?php if (empty($_GET['item'])) {echo ' id="selected"';}?> data-path="">
+    <a class="item nav-link link-dark" id="notebookTitle" href="?nb=<?php echo $notebookName; ?>" data-name="<?php echo $notebookName; ?>"><?php echo urldecode($notebookName); ?></a>
+    </h3>
+    <ul class="nav my-2 justify-content-center">
+        <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=edit" title="Editar cuaderno">
+            <img class="icon" src="<?php echo URL_TPL; ?>img/feather/edit-3.svg" alt="">
+        </a></li>
+        <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;item=<?php echo $itemPath; ?>&amp;action=addnote">
+            <img class="icon" src="tpl/img/feather/file-plus.svg" alt="Nuevo apunte">
+        </a></li>
+        <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;item=<?php echo $itemPath; ?>&amp;action=adddir">
+            <img class="icon" src="tpl/img/feather/folder-plus.svg" alt="Nueva carpeta">
+        </a></li>
+        <li class="nav-item"><a class="nav-link link-dark hover-light" target="_blank" href="../view/index.php?nb=<?php echo $notebookName; ?>&amp;usr=<?php echo $user['login']; ?>" title="Ver cuaderno">
+            <img class="icon" src="<?php echo URL_TPL; ?>img/feather/eye.svg" alt="">
+        </a></li>
+        <li class="nav-item"><a class="nav-link link-danger hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=delete" title="Eliminar cuaderno">
+            <img class="icon" src="<?php echo URL_TPL; ?>img/feather/trash-2.svg" alt="">
+        </a></li>
+    </ul>
+</div>
 <?php
-
-	function Tree2Html($tree, $nbName, $selectedPath, $parents = array()) {
+function Tree2Html($tree, $nbName, $selectedPath, $parents = array()) {
 		$level = count($parents);
 		$html = str_repeat("\t", $level * 2) . "<ul";
 		if ($level == 0) {
@@ -341,15 +352,6 @@
 	}
 
 	echo Tree2Html($notebook['tree'], $notebookName, isset($_GET['item']) ? $_GET['item'] : '');?>
-
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center my-3">
-        <a class="nav-link link-dark text-center pt-2 px-2 gap-3" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;item=<?php echo $itemPath; ?>&amp;action=addnote" title="Agregar un nuevo apunte dentro del cuaderno actual">
-          <img class="icon d-block mx-auto" src="tpl/img/feather/file-plus.svg" alt="New file">Nuevo apunte
-        </a>
-        <a class="nav-link link-dark text-center pt-2 px-2" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;item=<?php echo $itemPath; ?>&amp;action=adddir" title="Agregar una nueva carpeta dentro del cuaderno actual">
-          <img class="icon d-block mx-auto" src="tpl/img/feather/folder-plus.svg" alt="New folder">Nueva carpeta
-        </a>
-    </div>
 
 <?php } // notebook tree ?>
 <?php if ($isConfigMode) {

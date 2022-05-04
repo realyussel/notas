@@ -35,6 +35,7 @@
 .callout-purple{ border-color:#5359e9; }
 .callout-dark{ border-color:#6d757d; }
 
+blockquote p,
 .alert p {
   margin-bottom: 0 !important;
 }
@@ -107,6 +108,7 @@ input[type=checkbox]:before {
   content: " ";
   background: white;
   border: 2px solid #ddd;
+  box-shadow: #d3d6d8 2px 3px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -117,15 +119,16 @@ input[type=checkbox]:before {
 
 input[type=checkbox]:checked:before {
   background: #009688;
-  border-color: #1a998a;
+  border-color: #009688;
+  box-shadow: #badbcc 2px 3px;
 }
 
 input[type=checkbox]:checked:after {
   content: " ";
   box-sizing: content-box;
   background: transparent;
-  border-left: 0.2rem solid white;
-  border-bottom: 0.2rem solid white;
+  border-left: 0.2rem solid #FFF;
+  border-bottom: 0.2rem solid #FFF;
   position: absolute;
   top: 5%;
   left: 10%;
@@ -168,4 +171,80 @@ input[type=checkbox]:checked:after {
 @keyframes flash-outline {
   from { outline: 5px solid #c6e4ff; }
   to   { outline: 5px solid transparent; }
+}
+
+blockquote {
+  border-left: 3px solid #d0d7de;
+  font-family: Georgia, Times, "Times New Roman", serif;
+  font-style: italic;
+  line-height: 1.8em;
+  margin: 1em 2em;
+  padding: 1em 2em;
+  position: relative;
+  transition: 0.2s border ease-in-out;
+  z-index: 0;
+}
+blockquote:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -4px;
+  height: 2em;
+  background-color: #fff;
+  width: 5px;
+  margin-top: -1em;
+}
+blockquote:after {
+  content: "“";
+  position: absolute;
+  top: 50%;
+  left: -0.5em;
+  color: #d0d7de;
+  font-size: 3em;
+  font-style: normal;
+  line-height: 1em;
+  text-align: center;
+  text-indent: -2px;
+  width: 1em;
+  margin-top: -0.25em;
+  transition: 0.2s all ease-in-out, 0.4s transform ease-in-out;
+}
+blockquote cite {
+  display: block;
+  font-size: 0.75em;
+  line-height: 1.8em;
+  margin-top: 1em;
+}
+@media (max-width: 980px) {
+  blockquote {
+    font-size: 1.1em;
+    margin: 1.1em -2em;
+  }
+}
+@media (max-width: 767px) {
+  blockquote {
+    border-top: 2px solid #d0d7de;
+    border-bottom: 2px solid #d0d7de;
+    border-left: none;
+    margin: 1.5em 0;
+    padding: 1.5em 1em;
+  }
+  blockquote:before {
+    left: 50%;
+    top: 0;
+    height: 4px;
+    margin-top: -3px;
+    margin-left: -1em;
+    width: 2em;
+  }
+  blockquote:after {
+    font-size: 2em;
+    left: 50%;
+    top: 0;
+    margin-top: -0.5em;
+    margin-left: -0.5em;
+  }
+  blockquote cite {
+    text-align: right;
+  }
 }

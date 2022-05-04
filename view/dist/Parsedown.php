@@ -1053,6 +1053,7 @@ class Parsedown {
 					'text' => $matches[1],
 					'attributes' => array(
 						'href' => $url,
+						'target' => $this->not_has_http($url) ? '_self' : '_blank',
 					),
 				),
 			);
@@ -1131,6 +1132,7 @@ class Parsedown {
 			'nonNestables' => array('Url', 'Link'),
 			'text' => null,
 			'attributes' => array(
+				'target' => null,
 				'href' => null,
 				'title' => null,
 			),
@@ -1152,6 +1154,7 @@ class Parsedown {
 
 		if (preg_match('/^[(]\s*+((?:[^ ()]++|[(][^ )]+[)])++)(?:[ ]+("[^"]*"|\'[^\']*\'))?\s*[)]/', $remainder, $matches)) {
 			$Element['attributes']['href'] = $matches[1];
+			$Element['attributes']['target'] = $this->not_has_http($matches[1]) ? '_self' : '_blank';
 
 			if (isset($matches[2])) {
 				$Element['attributes']['title'] = substr($matches[2], 1, -1);
@@ -1174,6 +1177,7 @@ class Parsedown {
 
 			$Definition = $this->DefinitionData['Reference'][$definition];
 
+			$Element['attributes']['target'] = $this->not_has_http($Definition['url']) ? '_self' : '_blank';
 			$Element['attributes']['href'] = $Definition['url'];
 			$Element['attributes']['title'] = $Definition['title'];
 		}
@@ -1262,6 +1266,7 @@ class Parsedown {
 					'text' => $url,
 					'attributes' => array(
 						'href' => $url,
+						'target' => $this->not_has_http($url) ? '_self' : '_blank',
 					),
 				),
 			);
@@ -1281,6 +1286,7 @@ class Parsedown {
 					'text' => $url,
 					'attributes' => array(
 						'href' => $url,
+						'target' => $this->not_has_http($url) ? '_self' : '_blank',
 					),
 				),
 			);
@@ -1509,4 +1515,9 @@ class Parsedown {
 		'var', 'span',
 		'wbr', 'time',
 	);
+
+	protected function not_has_http($string) {
+		// return $string[0] === '/';
+		return strpos($string, 'http') === false;
+	}
 }

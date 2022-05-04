@@ -314,6 +314,9 @@ class Deepwiki {
 					"tables" => [
 						"tablespan" => false,
 					],
+					"headings" => [
+						"auto_anchors" => true,
+					],
 				]);
 
 				$Parsedown->setSafeMode(false);
@@ -396,39 +399,6 @@ class Deepwiki {
 
 		}
 
-		// generate anchors for outline
-		// genera anclas para el esquema
-
-		$matches = array();
-		preg_match_all('#\<h([1-6])\>([^\<]+)\<\/h([1-6])\>#ui', $this->queried_docs['content'], $matches);
-
-		if (count($matches[0])) {
-			$slugs = array();
-			foreach (array_keys($matches[2]) as $k) {
-				$the_slug = $this->sanitizeTitle($matches[2][$k]);
-				if (in_array($the_slug, $slugs)) {
-					$i = 2;
-					while (in_array($the_slug . '-' . $i, $slugs)) {
-						$i++;
-					}
-					$the_slug = $the_slug . '-' . $i;
-				}
-				$slugs[$k] = $the_slug;
-			}
-			foreach (array_keys($matches[0]) as $k) {
-				$this->queried_docs['content'] = substr_replace(
-					$this->queried_docs['content'],
-					sprintf('<h%d id="%s">%s</h%d>',
-						$matches[1][$k],
-						$slugs[$k],
-						$matches[2][$k],
-						$matches[1][$k]),
-					strpos($this->queried_docs['content'], $matches[0][$k]),
-					strlen($matches[0][$k])
-				);
-			}
-		}
-
 	}
 
 	private function handleRequest() {
@@ -496,9 +466,9 @@ class Deepwiki {
 				$headings = array();
 				foreach (array_keys($matches[0]) as $k) {
 					$headings[] = array(
-						'title' => $matches[3][$k],
-						'anchor' => $matches[2][$k],
 						'level' => intval($matches[1][$k]),
+						'anchor' => $matches[2][$k],
+						'title' => $matches[3][$k],
 					);
 				}
 				$heading_index = array();
@@ -527,6 +497,7 @@ class Deepwiki {
 				}
 				$heading_index = implode(null, $heading_index);
 				// only display index tree when contains more than two entrys
+				// solo muestra el árbol de índice cuando contiene más de dos entradas
 				if (substr_count($heading_index, '<a ') >= 2) {
 					$part_doc_index = array(
 						'<div class="content-index">',
