@@ -1,10 +1,17 @@
 	jQuery(document).ready(function() {
-		$(".list-group-item button").click(function(event) {
-			$(this).children().toggleClass("fa-caret-up fa-caret-down");
+		$("#wiki-nav button").click(function(event) {
 			event.stopPropagation();
 			event.preventDefault();
-			$(this).parent('.list-group-item').prop('onclick', null);
+			$(this).parent('#wiki-nav').prop('onclick', null);
 		});
+
+
+		$("#subnavbar-nav button").click(function(event) {
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+		// MARKS
 
 		const markers = [...document.querySelectorAll('mark')];
 

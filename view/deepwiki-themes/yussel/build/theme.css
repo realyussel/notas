@@ -1,32 +1,3 @@
-
-// Tree menu
-
-.list-group-item {
-  position:relative;
-  padding-right: 3em;
-}
-.list-group-item>button {
-  position:absolute;
-  right:0.5em;
-}
-.active>button{
-    color: #f8f9fa !important;
-    border-color: #f8f9fa !important;
-}
-.active>button:focus {
-    box-shadow: 0 0 0 0.25rem rgb(248 249 250 / 50%) !important;
-}
-.active>button:active {
-    color: #000 !important;
-    background-color: #f8f9fa !important;
-    border-color: #f8f9fa !important;
-}
-.active>button:hover {
-    color: #000 !important;
-    background-color: #f8f9fa !important;
-    border-color: #f8f9fa !important;
-}
-
 // Login
 
 #body-signin {
@@ -47,39 +18,4 @@
 }
 .form-signin input[type="password"] {
   margin-bottom: 10px;
-}
-
-
-div.content-index {
-    font-size: 95%;
-
-    border: 1px solid #B4BBC8;
-    background-color: #f9f9f9;
-    color: #000;
-
-    margin: 0.5em 0 0.7em 1.2em;
-    padding: 0.4em;
-    clear: right;
-    float: right;
-    line-height: 1.5em;
-    width: 22.5em;
-}
-.content-index-title {
-    font-size: 140%;
-    font-weight: bolder;
-    margin: 0;
-    line-height: 1.2em;
-    text-align: center;
-    vertical-align: middle;
-}
-div.content-index ul {
-    text-align: left;
-    list-style: none;
-    margin: 0.3em 0;
-    padding: 0;
-}
-div.content-index ul li {
-    margin-bottom: 0.1em;
-    display: list-item;
-    text-align: -webkit-match-parent;
 }

@@ -439,7 +439,7 @@ class Deepwiki {
 		$part_nav = $part_doc_index = array();
 
 		// generate navigation menu
-		$part_nav[] = '<div class="list-group">';
+		$part_nav[] = '<ul class="list-unstyled pb-1" id="primary-docs-nav">';
 		$top_level_elements = array();
 		$children_elements = array();
 		foreach ($this->docs_items as $entry) {
@@ -456,7 +456,7 @@ class Deepwiki {
 			$this->_display_nav_item($entry, $children_elements, $output_nav, $submenu_number);
 		}
 		$part_nav[] = $output_nav;
-		$part_nav[] = '</div>';
+		$part_nav[] = '</ul>';
 
 		// generate outline
 		if ($this->config['display_index']) {
@@ -500,10 +500,10 @@ class Deepwiki {
 				// solo muestra el árbol de índice cuando contiene más de dos entradas
 				if (substr_count($heading_index, '<a ') >= 2) {
 					$part_doc_index = array(
-						'<div class="content-index">',
-						'<p class="content-index-title">Contenido</p>',
+						'<strong class="d-block h6 my-2 pb-2 border-bottom">Contenido</strong>',
+						'<nav id="TableOfContents">',
 						$heading_index,
-						'</div>',
+						'</nav>',
 					);
 				}
 			}
@@ -539,19 +539,18 @@ class Deepwiki {
 	private function _display_nav_item($item, &$children_elements, &$output, &$submenu_number) {
 		$item['has_children'] = array_key_exists($item['chapter'], $children_elements);
 		$item['is_current'] = 0 === strpos($this->request->query[0], $item['path'] . '/');
-		$output .= sprintf('<a class="%s%s" href="%s"%s%s>%s</a>',
-			'list-group-item list-group-item-action' . ($this->request->query[0] === $item['path'] ? ' active' : null),
-			($item['has_children'] ? ' d-flex justify-content-between align-items-center' : null),
+		$output .= sprintf('<li><a class="%s%s" href="%s"%s%s>%s</a></li>',
+			'd-inline-flex align-items-center rounded' . ($this->request->query[0] === $item['path'] ? ' active' : null),
+			($item['has_children'] ? ' d-flex' : null),
 			($this->uri($item['path'])),
 			($item['is_current'] ? ' aria-expanded="true"' : null),
 			('url' === $item['type'] ? ' target="_blank"' : null),
-			($this->config['display_chapter'] ? $item['chapter'] . ' ' : null) .
-			$item['title'] . ($item['has_children'] ? ' <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#wiki-nav-' . $submenu_number . '" aria-expanded="false" aria-controls="wiki-nav-' . $submenu_number . '"><i class="fa fa-caret-down"></i></button>' : null));
+			($item['has_children'] ? ' <button class="btn d-inline-flex align-items-center rounded collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wiki-nav-' . $submenu_number . '" aria-expanded="false" aria-controls="wiki-nav-' . $submenu_number . '"></button>' : null) . ($this->config['display_chapter'] ? $item['chapter'] . ' ' : null) . $item['title']);
 		if ($item['has_children']) {
 			foreach ($children_elements[$item['chapter']] as $entry) {
 				if (!isset($new_level)) {
 					$new_level = true;
-					$output .= '<div class="collapse' . ($item['is_current'] ? ' show' : null) . '" id="wiki-nav-' . $submenu_number . '">';
+					$output .= '<ul class="list-unstyled pb-1 small collapse' . ($item['is_current'] ? ' show' : null) . '" id="wiki-nav-' . $submenu_number . '">';
 					$submenu_number++;
 				}
 				$this->_display_nav_item($entry, $children_elements, $output, $submenu_number);
@@ -559,7 +558,7 @@ class Deepwiki {
 		}
 
 		if (isset($new_level)) {
-			$output .= '</div>';
+			$output .= '</ul>';
 		}
 		$output .= '';
 	}

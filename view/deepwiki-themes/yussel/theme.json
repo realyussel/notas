@@ -3,6 +3,7 @@
 	"assets": {
 		"css": [
 			"build/bootstrap/bootstrap.min.css",
+			"build/bootstrap/docs.css",
 			"build/github/5.1.0/github-markdown.min.css",
 			"build/md.css",
 			"build/theme.css"
