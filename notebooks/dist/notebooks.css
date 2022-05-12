@@ -24,6 +24,7 @@
 }
 /* common column styles */
 .col-float .col {
+    background: transparent;
     float: left;
   flex: 1 1 0;
   display: inline-flex;
@@ -154,7 +155,6 @@
 .col-float.cols-3 .col:nth-child(2n+3) {
     margin-left: 0;
     clear: both;
-    background: blue;
 }
 
 } /* / media 767 */
