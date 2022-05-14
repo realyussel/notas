@@ -17,8 +17,10 @@
 .bd-intro {
 	overflow-x: auto;
 }
-.bd-intro h1{margin:.67em 0;font-weight:600;padding-bottom:.3em;font-size:2em;border-bottom:1px solid var(--color-border-muted)}
 
+.bd-intro > #title:first-child {
+  padding: 2rem 1rem 1rem 1rem;
+}
 .bd-intro table {margin-bottom:.25em}
 .bd-intro table th{font-weight:600}
 .bd-intro table td,
@@ -26,11 +28,6 @@
 .bd-intro table tr{background-color:var(--color-canvas-default);border-top:1px solid var(--color-border-muted)}
 .bd-intro table tr:nth-child(2n){background-color:var(--color-canvas-subtle)}
 .bd-intro table img{background-color:transparent}
-
-.bd-intro code,
-.bd-intro tt{font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:12px}
-
-.bd-intro pre{margin-top:0;margin-bottom:0;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace;font-size:12px;word-wrap:normal}
 
 .bd-intro sup>a::before{content:"["}
 .bd-intro sup>a::after{content:"]"}
@@ -42,11 +39,3 @@
 .bd-intro dl{padding:0}
 .bd-intro dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}
 .bd-intro dl dd{padding:0 16px;margin-bottom:16px}
-
-.bd-intro code,.bd-intro tt{padding:.2em .4em;margin:0;font-size:85%;background-color:var(--color-neutral-muted);border-radius:6px}
-.bd-intro code br,.bd-intro tt br{display:none}
-.bd-intro del code{text-decoration:inherit}
-.bd-intro pre code{font-size:100%}
-.bd-intro pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}
-.bd-intro pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:var(--color-canvas-subtle);border-radius:6px}
-.bd-intro pre code,.bd-intro pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}
