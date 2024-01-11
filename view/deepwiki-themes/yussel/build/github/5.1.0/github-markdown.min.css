@@ -1,41 +1,95 @@
+@media (prefers-color-scheme:dark) {
+	.bd-intro {
+		--color-canvas-subtle: #161b22;
+		--color-border-default: #30363d;
+		--color-border-muted: #21262d;
+		--color-neutral-muted: rgba(110, 118, 129, 0.4);
+	}
 
-@media (prefers-color-scheme:dark){
-	.bd-intro{
---color-canvas-subtle:#161b22;
---color-border-default:#30363d;
---color-border-muted:#21262d;
---color-neutral-muted:rgba(110,118,129,0.4);}
 }
 
-@media (prefers-color-scheme:light){
-	.bd-intro{
---color-canvas-subtle:#f6f8fa;
---color-border-default:#d0d7de;
---color-border-muted:hsla(210,18%,87%,1);
---color-neutral-muted:rgba(175,184,193,0.2);}
+@media (prefers-color-scheme:light) {
+	.bd-intro {
+		--color-canvas-subtle: #f6f8fa;
+		--color-border-default: #d0d7de;
+		--color-border-muted: hsla(210, 18%, 87%, 1);
+		--color-neutral-muted: rgba(175, 184, 193, 0.2);
+	}
+
 }
+
 .bd-intro {
 	overflow-x: auto;
 }
 
 .bd-intro > #title:first-child {
-  padding: 2rem 1rem 1rem 1rem;
+	padding-top: 3rem;
 }
-.bd-intro table {margin-bottom:.25em}
-.bd-intro table th{font-weight:600}
+
+.bd-intro table {
+	margin-bottom: 0.75rem;
+}
+
+.bd-intro table th {
+	font-weight: 600
+}
+
 .bd-intro table td,
-.bd-intro table th{padding:6px 13px;border:1px solid var(--color-border-default)}
-.bd-intro table tr{background-color:var(--color-canvas-default);border-top:1px solid var(--color-border-muted)}
-.bd-intro table tr:nth-child(2n){background-color:var(--color-canvas-subtle)}
-.bd-intro table img{background-color:transparent}
+.bd-intro table th {
+	padding: 6px 13px;
+	border: 1px solid var(--color-border-default)
+}
 
-.bd-intro sup>a::before{content:"["}
-.bd-intro sup>a::after{content:"]"}
+.bd-intro table tr {
+	background-color: var(--color-canvas-default);
+	border-top: 1px solid var(--color-border-muted)
+}
 
-.bd-intro ol ol,.bd-intro ol ul,.bd-intro ul ol,.bd-intro ul ul{margin-top:0;margin-bottom:0}
-.bd-intro li+li{margin-top:.25em}
-.bd-intro li>p{margin-bottom: 0;}
+.bd-intro table tr:nth-child(2n) {
+	background-color: var(--color-canvas-subtle)
+}
 
-.bd-intro dl{padding:0}
-.bd-intro dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}
-.bd-intro dl dd{padding:0 16px;margin-bottom:16px}
+.bd-intro table img {
+	background-color: transparent
+}
+
+.bd-intro sup>a::before {
+	content: "["
+}
+
+.bd-intro sup>a::after {
+	content: "]"
+}
+
+.bd-intro ol ol,
+.bd-intro ol ul,
+.bd-intro ul ol,
+.bd-intro ul ul {
+	margin-top: 0;
+	margin-bottom: 0
+}
+
+.bd-intro li+li {
+	margin-top: 0.75rem;
+}
+
+.bd-intro li>p {
+	margin-bottom: 0;
+}
+
+.bd-intro dl {
+	padding: 0
+}
+
+.bd-intro dl dt {
+	padding: 0;
+	margin-top: 16px;
+	font-size: 1rem;
+	font-style: italic;
+	font-weight: 600
+}
+
+.bd-intro dl dd {
+	padding: 0 16px;
+	margin-bottom: 16px
+}

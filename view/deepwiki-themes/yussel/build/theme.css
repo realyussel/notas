@@ -1,4 +1,4 @@
-// Login
+/* login */
 
 #body-signin {
   display: flex;
@@ -18,4 +18,69 @@
 }
 .form-signin input[type="password"] {
   margin-bottom: 10px;
+}
+.scroll-line{
+  position: absolute;
+  height: 2px;
+  bottom: -2px;
+  background: #00a884;
+  width: 0%;
+}
+.btn.vr {
+  opacity: 1;
+  margin-top: .3125rem;
+  margin-bottom: .3125rem;
+}
+/* prism */
+
+.copy-to-clipboard-button {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+div.code-toolbar>.toolbar>.toolbar-item>button[data-copy-state="copy-success"] {
+  color: rgb(173, 186, 199);
+}
+
+pre.language-css + .toolbar>.toolbar-item>span { background-color: #FF4081 !important; }
+pre.language-html + .toolbar>.toolbar-item>span { background-color: #3F51B5 !important; }
+pre.language-javascript + .toolbar>.toolbar-item>span { background-color: #34A853 !important; }
+pre.language-jquery + .toolbar>.toolbar-item>span { background-color: #00BCD4 !important; }
+pre.language-xml + .toolbar>.toolbar-item>span { background-color: #89BF49 !important; }
+pre.language-php + .toolbar>.toolbar-item>span { background-color: #45B5AF !important; }
+pre.language-all + .toolbar>.toolbar-item>span { background-color: #FBBC05 !important; }
+pre::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+  border-radius: 8px;
+}
+pre::-webkit-scrollbar-button:increment,
+pre::-webkit-scrollbar-button {
+    display: none;
+} 
+pre::-webkit-scrollbar-track {
+  border-radius: 8px;
+}
+
+pre[class^="language-"]::-webkit-scrollbar-track {
+  background-color: #293256;
+}
+
+pre::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  padding: 2px;
+  background-color: #f7f7f9;
+  box-shadow: inset 0 0 8px 8px #ced4da;
+  border: solid 2px transparent;
+}
+pre::-webkit-scrollbar-thumb:hover {
+  box-shadow: inset 0 0 8px 8px #adb5bd;
+}
+
+pre[class^="language-"]::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border: solid 2px transparent;
+  box-shadow: inset 0 0 8px 8px #4b578d;
+}
+pre[class^="language-"]::-webkit-scrollbar-thumb:hover {
+  box-shadow: inset 0 0 8px 8px #6b7394;
 }

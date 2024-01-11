@@ -6,28 +6,19 @@
 		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 		{{html_head}}
+		<!-- KaTeX -->
+		<link rel="stylesheet" href="./KaTeX/katex.min.css">
+		<script defer src="./KaTeX/katex.min.js"></script>
+		<script defer src="./KaTeX/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+		<!-- prism -->
+		<link rel="stylesheet" href="./prism/prism.css">
+		<script defer src="./prism/prism.js"></script>
+		<!-- Mermaid -->
+		<script defer src="./mermaid/mermaid.min.js"></script>
+		
 	</head>
 	<body>
-		<header class="bg-dark text-white py-3 border-bottom">
-			<div class="container-fluid d-grid align-items-center">
-				<div class="d-flex align-items-center">
-					<div class="d-flex mb-2 mb-lg-0">
-						<img src="dist/y-dark.svg" alt="" width="40" height="40" class="me-2">
-					</div>
-					<nav class="me-auto">
-						<ul class="navbar-nav flex-row flex-wrap bd-navbar-nav pt-2 py-md-0">
-							<li class="nav-item col-6 col-md-auto">
-								<a class="nav-link p-2 text-white" href="../">Inicio</a>
-							</li>
-							<li class="nav-item col-6 col-md-auto">
-								<a class="nav-link p-2 text-white active" aria-current="true" href="../notebooks/?user={{copyright}}">{{copyright}}</a>
-							</li>
-						</ul>
-					</nav>
-					<a href="../edit" class="btn btn-outline-light text-end">Editor</a>
-				</div>
-			</div>
-		</header>
+		{{header}}
 		<nav id="subnavbar-nav" class="bd-subnavbar py-2" aria-label="Secondary navigation">
 			<div class="container-xxl d-flex align-items-md-center">
 				<nav aria-label="breadcrumb">
@@ -37,16 +28,11 @@
 					</ol>
 				</nav>
 				<button class="btn bd-sidebar-toggle d-md-none py-0 px-1 ms-3 order-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#wiki-nav" aria-controls="wiki-nav" aria-expanded="false" aria-label="Toggle docs navigation">
-					      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" fill="currentColor" viewBox="0 0 16 16">
-						  <title>Expand</title>
-						  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z"></path>
-					</svg>
-					      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-collapse" fill="currentColor" viewBox="0 0 16 16">
-						  <title>Collapse</title>
-						  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"></path>
-					</svg>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-expand" fill="currentColor" viewBox="0 0 16 16"><title>Expand</title><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z"></path></svg>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi bi-collapse" fill="currentColor" viewBox="0 0 16 16"><title>Collapse</title><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707l-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z"></path></svg>
 				</button>
 			</div>
+			<div class="scroll-line"></div>
 		</nav>
 		<div class="container-xxl my-md-4 bd-layout">
 			<aside class="bd-sidebar">
@@ -63,10 +49,7 @@
 				</div>
 			</main>
 		</div>
-		<footer class="bd-footer bg-light">
-			<div class="container">
-				<p class="m-0 p-3">yussel.com.mx © 2022 {{body_footer}} {{logout_link}}</p>
-			</div>
-		</footer>
+		{{footer}}
+		{{body_footer}}
 	</body>
 </html>

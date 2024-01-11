@@ -90,9 +90,10 @@
 @media (prefers-reduced-motion: reduce){.bd-links .btn::before{transition:none}
 }
 .bd-links .btn[aria-expanded="true"]{color:rgba(0,0,0,0.85)}
-.bd-links .btn[aria-expanded="true"]::before{transform:rotate(90deg)}
-
-
+.bd-links li:has(+ul.show) .btn[aria-expanded="false"]::before,
+.bd-links .btn[aria-expanded="true"]::before{
+    transform:rotate(90deg)
+}
 @media (min-width: 768px){.bd-layout{display:grid;gap:1.5rem;grid-template-areas:"sidebar main";grid-template-columns:1fr 3fr}
 }
 @media (min-width: 992px){.bd-layout{grid-template-columns:1fr 5fr}
