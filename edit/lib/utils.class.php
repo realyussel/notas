@@ -1,14 +1,16 @@
 <?php
 
-define( 'DS', DIRECTORY_SEPARATOR );
+define('DS', DIRECTORY_SEPARATOR);
 
-class Utils {
+class Utils
+{
     /**
      * Convert a path to respect the OS specific directory separator
      * @param  string $path Unix style path
      * @return string       Converted path (depend on the system)
      */
-    public static function convertPath($path) {
+    public static function convertPath($path)
+    {
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         return $path;
     }
@@ -24,25 +26,26 @@ class Utils {
      *                        Just the pointed element if asked to
      *                        NULL returned if element not found
      */
-    protected static function handleArrayItemFromPath($array, $path, $value, $get = false, $unset = false) {
-        $nodes = explode('/', $path);
-        $null = null;
+    protected static function handleArrayItemFromPath($array, $path, $value, $get = false, $unset = false)
+    {
+        $nodes    = explode('/', $path);
+        $null     = null;
         $previous = null;
-        $element = &$array;
+        $element  = &$array;
         //get to the level of the given element (and keep its parent)
-        foreach($nodes as $node) {
+        foreach ($nodes as $node) {
             $previous = &$element;
-            if(isset($element[$node]))
+            if (isset($element[$node])) {
                 $element = &$element[$node];
-            else {
+            } else {
                 $element = &$null;
             }
         }
 
-        if($unset) {
+        if ($unset) {
             unset($previous[$node]);
             return $array;
-        } elseif($get) {
+        } elseif ($get) {
             return $element;
         } else {
             $previous[$node] = $value;
@@ -52,24 +55,28 @@ class Utils {
         }
     }
 
-    public static function getArrayItem($array, $path) {
+    public static function getArrayItem($array, $path)
+    {
         return self::handleArrayItemFromPath($array, $path, null, true);
     }
 
-    public static function setArrayItem($array, $path, $value) {
+    public static function setArrayItem($array, $path, $value)
+    {
         return self::handleArrayItemFromPath($array, $path, $value);
     }
 
-    public static function unsetArrayItem($array, $path) {
+    public static function unsetArrayItem($array, $path)
+    {
         return self::handleArrayItemFromPath($array, $path, null, false, true);
     }
 
     /**
      * Sort array by keys in "natural" order & case-insensitively
-     * Combine uksort (sort by keys) with strnatcasecmp (natural case-insensitive comparison) 
+     * Combine uksort (sort by keys) with strnatcasecmp (natural case-insensitive comparison)
      * @param  array $array unsorted array
      */
-    public static function natcaseksort(&$array) {
+    public static function natcaseksort(&$array)
+    {
         uksort($array, 'strnatcasecmp');
     }
 
@@ -78,8 +85,9 @@ class Utils {
      * @param  string $file path to file
      * @return string       file content
      */
-    public static function loadFile($file) {
-        if (file_exists( $file )) {
+    public static function loadFile($file)
+    {
+        if (file_exists($file)) {
             $data = file_get_contents($file);
             return $data;
         } else {
@@ -94,16 +102,19 @@ class Utils {
      * @param  string $content file content
      * @return boolean         true on success
      */
-    public static function saveFile($file, $content) {
-        if (!file_exists( $file )) {
+    public static function saveFile($file, $content)
+    {
+        if (! file_exists($file)) {
             //in case the directory doesn't yet exist
-            if(!file_exists( dirname($file) ))
+            if (! file_exists(dirname($file))) {
                 $success = mkdir(dirname($file), 0700, true);
+            }
+
             //create file
             touch($file);
         }
-        $fp = fopen( $file, 'w' );
-        if($fp) {
+        $fp = fopen($file, 'w');
+        if ($fp) {
             fwrite($fp, $content);
             fclose($fp);
         }
@@ -116,10 +127,13 @@ class Utils {
      * @param  boolean $compress If data should be gzip uncompressed before decoding it
      * @return misc              File content decoded
      */
-    public static function loadJson($file, $uncompress = false) {
-        if($data = self::loadFile($file)) {
-            if($uncompress)
+    public static function loadJson($file, $uncompress = false)
+    {
+        if ($data = self::loadFile($file)) {
+            if ($uncompress) {
                 $data = gzinflate($data);
+            }
+
             $data = json_decode($data, true);
         }
         return $data;
@@ -132,14 +146,17 @@ class Utils {
      * @param  boolean $compress Compress (or not) file content in gzip
      * @return boolean           true on success
      */
-    public static function saveJson($file, $data, $compress = false) {
-        if(version_compare(PHP_VERSION, '5.4.0') >= 0)
+    public static function saveJson($file, $data, $compress = false)
+    {
+        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             $json = json_encode($data, JSON_PRETTY_PRINT);
-        else
+        } else {
             $json = json_encode($data);
+        }
 
-        if($compress)
+        if ($compress) {
             $json = gzdeflate($json);
+        }
 
         return self::saveFile($file, $json);
     }
@@ -150,16 +167,32 @@ class Utils {
      * @param  string $dir path to directory
      * @return boolean     true on success
      */
-    public static function rmdirRecursive($dir) {
-        $files = array_diff(scandir($dir), array('.','..'));
-        foreach ($files as $file) {
-            if(is_dir("$dir/$file"))
-                self::rmdirRecursive("$dir/$file");
-            else
-                unlink("$dir/$file");
+    public static function rmdirRecursive($dir)
+    {
+        // Verifica que el directorio exista
+        if (! is_dir($dir)) {
+            // Puedes decidir lanzar una excepción o simplemente retornar false
+            return false;
         }
+
+        $files = scandir($dir);
+        // Verifica que scandir no haya fallado
+        if ($files === false) {
+            return false;
+        }
+
+        // Elimina los directorios especiales '.' y '..'
+        $files = array_diff($files, ['.', '..']);
+
+        foreach ($files as $file) {
+            $filePath = $dir . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($filePath)) {
+                self::rmdirRecursive($filePath);
+            } else {
+                unlink($filePath);
+            }
+        }
+
         return rmdir($dir);
     }
 }
-
-?>

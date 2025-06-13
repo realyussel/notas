@@ -4,20 +4,24 @@
 		<meta charset="UTF-8">
 		<title>Conectarse &raquo; {{site_name}}</title>
 		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+		<link rel="icon" href="../icon/32.png" type="image/png">
+    	<link rel="icon" href="../icon/32.svg" type="image/svg+xml">
+    	<link rel="apple-touch-icon" sizes="180x180" href="../icon/180.png">
+    	
 		{{html_head}}
 	</head>
 	<body id="body-signin" class="text-center">
 		<main class="form-signin">
 			<!--{{site_name}}{{site_description}}-->
 			<form id="loginForm" class="form-signin" method="post" role="form">
-				<img class="mb-4" src="dist/y-black.svg" alt="" width="72" height="72">
-				<h1 class="h3 mb-3 fw-normal">Por favor introduzca la contraseña</h1>
+				<img class="mb-4" src="../icon/n.svg" alt="" width="72" height="72">
+				<h1 class="h3 mb-3 fw-normal">Necesita una contraseña</h1>
 				<div class="form-floating mb-3">
 					<input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required="true">
 					<label for="password">Contraseña</label>
 				</div>
 				<button id="submitLoginForm" name="submitLoginForm" class="w-100 btn btn-lg btn-primary" type="submit">Enviar</button>
-				<p class="mt-5 mb-3 text-muted">yussel.com.mx © 2022</p>
+				<p class="mt-5 mb-3 text-muted">© yussel.com.mx</p>
 			</form>
 			<!--{{login_form}}{{copyright}}-->
 			{{body_footer}}

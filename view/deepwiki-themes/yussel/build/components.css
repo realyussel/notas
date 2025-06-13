@@ -1,0 +1,97 @@
+/* CONTROLS */
+
+.controls {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.25rem 0 0.25rem 0;
+}
+.controls .previous {
+  border: 1px solid #232323;
+}
+.controls .next {
+  border-top: 1px solid #232323;
+  border-right: 1px solid #232323;
+  border-bottom: 1px solid #232323;
+}
+.controls .icon {
+  position: relative;
+  margin: auto;
+  width: 20px;
+  height: 1px;
+  background-color: currentColor;
+}
+.controls .icon.arrow-left::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: -4px;
+  width: 9px;
+  height: 9px;
+  border-top: solid 1px currentColor;
+  border-right: solid 1px currentColor;
+  transform: rotate(-135deg);
+}
+.controls .icon.arrow-right::before {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: -4px;
+  width: 9px;
+  height: 9px;
+  border-top: solid 1px currentColor;
+  border-right: solid 1px currentColor;
+  transform: rotate(45deg);
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+.previous, .next {
+  color: #CCC;
+  position: relative;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  margin: 0;
+  padding: 0 20px;
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-basis: 15%;
+  font-size: 2rem;
+}
+a.previous,
+a.next {
+  cursor: pointer;
+  color: #232323;
+}
+a.previous:hover .icon,
+a.next:hover .icon {
+  transform: scale(1.5);
+}
+a.previous .icon,
+a.next .icon {
+  transition: transform 0.1s ease;
+}
+
+@media (min-width: 62rem) {
+  .controls {
+    padding: 1.75rem 0 1.75rem 0;
+  }
+  .previous, .next {
+    flex-basis: 8.33%;
+  }
+}

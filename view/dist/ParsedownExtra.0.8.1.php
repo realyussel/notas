@@ -150,7 +150,8 @@ class ParsedownExtra extends Parsedown {
 	}
 
 	protected function blockDefinitionListContinue($Line, array $Block) {
-		if ($Line['text'][0] === ':') {
+
+		if ($Line['text'][0] === ': ') {
 			$Block = $this->addDdElement($Line, $Block);
 
 			return $Block;

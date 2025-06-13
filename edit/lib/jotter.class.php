@@ -1,110 +1,46 @@
 <?php
 
-class Jotter {
-    protected
-        $notebooks,
-        $notebooksFile,
-        $notebook,
-        $notebookPath,
-        $notebookFile,
+class Jotter
+{
+    protected $notebooks,
+    $notebooksFile,
+    $notebook,
+    $safeNbPath,
+    $notebookFile,
         $notebookName;
 
-    public function __construct() {
-        $this->notebooksFile = ROOT.'/data/notebooks.json';
+    public function __construct()
+    {
+        $this->notebooksFile = ROOT . '/data/notebooks.json';
+    }
+
+    // Codifica cada segmento del path
+    private function safeEncodePath($path)
+    {
+        $segments         = explode('/', $path);
+        $encoded_segments = array_map('urlencode', $segments);
+        return implode('/', $encoded_segments);
+    }
+
+    // Decodifica cada segmento del path
+    private function safeDecodePath($path)
+    {
+        $segments         = explode('/', $path);
+        $decoded_segments = array_map('urldecode', $segments);
+        return implode('/', $decoded_segments);
     }
 
     /**
      * Load the list of notebooks file
-     * @return array             List of notebooks (name + user)
+     * @return array List of notebooks (name + user)
      */
-    public function loadNotebooks() {
-        
+    public function loadNotebooks()
+    {
+
         $this->notebooks = Utils::loadJson($this->notebooksFile);
-        if(!is_array($this->notebooks))
-            $this->notebooks = array();
-
-        return $this->notebooks;
-    }
-
-    /**
-     * Add or Edit a notebook
-     * @param string  $name   New notebook name
-     * @param string  $user   Owner's login
-     * @param string  $editor type of editor
-     * @param boolean $safe   make wysiwyg editor safe or not
-     * @param boolean $public Whether the notebook should be public or private
-     * @return array          List of notebooks
-     */
-    public function setNotebook($name, $user, $editor, $safe, $color = '#42ba96', $site_name = '', $site_description = '', $home_route = '', $password = '', $public_view = false, $display_chapter = false, $display_index = false, $public = false) {
-        if(strpos($name, '..') !== false) return false;
-
-        $this->loadNotebooks();
-        $this->notebookPath = ROOT.'/data/'.$user.'/'.$name;
-        $this->notebookFile = $this->notebookPath.'/notebook.json';
-
-        //add a new notebook
-        if(!isset($this->notebooks[$user][$name])) {
-
-            $this->notebooks[$user][$name] = $color;
-
-            //reorder notebooks
-            Utils::natcaseksort($this->notebooks[$user]);
-
-            //create the notebook directory and default note
-            $defaultNote = 'apunte.md';
-            mkdir($this->notebookPath, 0700, true);
-            touch($this->notebookPath.'/'.$defaultNote);
-
-            $this->notebook = array(
-                'created'   => time(),
-                'user'      => $user,
-                'public'    => $public,
-                'editor'    => $editor,
-                'safe'      => $safe,
-                'tree'      => array(
-                    $defaultNote   => true
-                ),
-                'site_name'         => $site_name,
-                'site_description'  => $site_description,
-                'home_route'        => $home_route,
-                'password'          => $password,
-                'public_view'       => $public_view,
-                'display_chapter'   => $display_chapter,
-                'display_index'     => $display_index
-                
-            ); // 'docs_path'  => '../edit/data/' . $user . notebook
-        } else {
-            // editing a notebook
-            
-            // Rename - No habilitar hasta resolver if anterior
-            // $this->notebooks[$user][$new_name] = $color;
-            // unset($this->notebooks[$user][$name]);
-            
-            $this->notebooks[$user][$name] = $color;
-
-            //reorder notebooks
-            Utils::natcaseksort($this->notebooks[$user]);
-
-            $this->notebook = Utils::loadJson($this->notebookFile);
-
-            $this->notebook['editor'] = $editor;
-            $this->notebook['safe'] = $safe;
-
-            $this->notebook['site_name'] = $site_name;
-            $this->notebook['site_description'] = $site_description;
-            $this->notebook['home_route'] = $home_route;
-            $this->notebook['password'] = $password;
-
-            $this->notebook['public_view'] = $public_view;
-            $this->notebook['display_chapter'] = $display_chapter;
-            $this->notebook['display_index'] = $display_index;
+        if (! is_array($this->notebooks)) {
+            $this->notebooks = [];
         }
-
-        $this->notebook['updated'] = time();
-
-        //save the JSON files (notebooks list, notebook)
-        Utils::saveJson($this->notebooksFile, $this->notebooks);
-        Utils::saveJson($this->notebookFile, $this->notebook);
 
         return $this->notebooks;
     }
@@ -113,17 +49,124 @@ class Jotter {
      * Load a notebook config file
      * @param  string $name Notebook's name
      * @param  string $user Owner's login
-     * @return array        Notebook's configuration
+     * @return array Notebook's configuration
      */
-    public function loadNotebook($name, $user) {
-        if(strpos($name, '..') !== false) return false;
+    public function loadNotebook($name, $user)
+    {
+        if (strpos($name, '..') !== false) {
+            return false;
+        }
 
         $this->notebookName = $name;
-        $this->notebookPath = ROOT.'/data/'.$user.'/'.$this->notebookName;
-        $this->notebookFile = $this->notebookPath.'/notebook.json';
-        $this->notebook = Utils::loadJson($this->notebookFile);
+        $this->safeNbPath   = ROOT . '/data/' . urlencode($user) . '/' . urlencode($this->notebookName);
+        $this->notebookFile = $this->safeNbPath . '/notebook.json';
+        $this->notebook     = Utils::loadJson($this->notebookFile);
 
         return $this->notebook;
+    }
+
+    /**
+     * Add or Edit a notebook
+     * @param string  $name   New notebook name
+     * @param string  $user   Owner's login
+     * @return array          List of notebooks
+     */
+    public function setNotebook(array $params)
+    {
+
+        // Valores por defecto para los parámetros opcionales
+        $defaults = [
+            'name'             => '',
+            'new_name'         => false,
+            'user'             => '',
+            'color'            => '#FFFFFF',
+            'site_name'        => '',
+            'site_description' => '',
+            'home_route'       => '',
+            'password'         => '',
+            'display_chapter'  => false,
+            'display_index'    => false,
+            'rename'           => false,
+        ];
+
+        // Mezclar los parámetros proporcionados con los valores por defecto
+        $params = array_merge($defaults, $params);
+
+        // Asignar los parámetros a variables
+        extract($params);
+
+        // Validación inicial
+        if (strpos($name, '..') !== false) {
+            return false;
+        }
+
+        // Carga de cuadernos existentes
+        $this->loadNotebooks();
+        $absPath     = ROOT . '/data/' . urlencode($user) . '/';
+        $safeName    = urlencode($name);
+        $safeNewName = urlencode($new_name);
+
+        if ($new_name !== false) {
+
+            // Rename
+
+            rename($absPath . $safeName, $absPath . $safeNewName);
+            unset($this->notebooks[$user][$safeName]);
+            // TODO add new name
+            $locName = $safeNewName;
+        } else {
+            $locName = $safeName;
+        }
+        $this->safeNbPath   = $absPath . $locName;
+        $this->notebookFile = $this->safeNbPath . '/notebook.json';
+
+        $this->notebooks[$user][$locName] = $color;   // Crea o Actualiza el color
+        Utils::natcaseksort($this->notebooks[$user]); // Re-ordenar cuadernos
+
+        if (! file_exists($this->safeNbPath)) {
+            // Crea un nuevo cuaderno
+            $defaultNote = urlencode('Léeme.md');
+            mkdir($this->safeNbPath, 0700, true);
+            touch($this->safeNbPath . '/' . $defaultNote);
+
+            $this->notebook = [
+                'created'          => time(),
+                'user'             => $user,
+                'tree'             => [
+                    $defaultNote => [
+                        "chapter"   => "",
+                        "slug"      => "",
+                        "hidden"    => false,
+                        "unindexed" => false,
+                    ],
+                ],
+                'site_name'        => $site_name,
+                'site_description' => $site_description,
+                'home_route'       => $home_route,
+                'password'         => $password,
+                'display_chapter'  => $display_chapter,
+                'display_index'    => $display_index,
+                'color'            => $color,
+            ];
+        } else {
+            // Actualiza el cuaderno
+            $this->notebook                     = Utils::loadJson($this->notebookFile);
+            $this->notebook['site_name']        = $site_name;
+            $this->notebook['site_description'] = $site_description;
+            $this->notebook['home_route']       = $home_route;
+            $this->notebook['password']         = $password;
+            $this->notebook['display_chapter']  = $display_chapter;
+            $this->notebook['display_index']    = $display_index;
+            $this->notebook['color']            = $color;
+        }
+
+        $this->notebook['updated'] = time();
+
+        // Guardar los archivos JSON
+        Utils::saveJson($this->notebooksFile, $this->notebooks);
+        Utils::saveJson($this->notebookFile, $this->notebook);
+
+        return $locName;
     }
 
     /**
@@ -132,71 +175,13 @@ class Jotter {
      * @param  string $user Owner's login
      * @return boolean      true on success
      */
-    public function unsetNotebook($name, $user) {
-        $this->notebooks = Utils::unsetArrayItem($this->notebooks, $user.'/'.$name);
-        $absPath = ROOT.'/data/'.$user.'/'.$name.'/';
-
+    public function unsetNotebook($name, $user)
+    {
+        $safeNb          = urlencode($user) . '/' . urlencode($name);
+        $this->notebooks = Utils::unsetArrayItem($this->notebooks, $safeNb);
+        $absPath         = ROOT . '/data/' . $safeNb . '/';
         return Utils::rmdirRecursive($absPath)
-            && Utils::saveJson($this->notebooksFile, $this->notebooks);
-    }
-
-    /**
-     * Add or edit (rename) an item (note or directory)
-     * @param string   $path    Relative path to item
-     * @param boolean  $isDir   False for notes, true for directories
-     * @param string   $newName New name for item, false if not needed
-     * @param boolean  $data    Data to keep inside JSON array for notes (unused)
-     * @return boolean          True on success
-     */
-    public function setItem($path, $isDir = true, $newName = false, $data = false) {
-        $success = true;
-        $absPath = $this->notebookPath.'/'.$path;
-        $dirPath = $isDir?$absPath:dirname($absPath);
-
-        //if necessary, create parent directories
-        if(!file_exists(dirname($absPath)))
-            $success = mkdir(dirname($absPath), 0700, true);
-
-        if($success && $newName !== false) {
-            //rename item
-            $success = rename($absPath, dirname($absPath).'/'.$newName);
-
-            //change corresponding key in tree array
-            $item = Utils::getArrayItem(
-                $this->notebook['tree'],
-                $path
-            );
-            $this->notebook['tree'] = Utils::setArrayItem(
-                $this->notebook['tree'],
-                (dirname($path)!='.'?dirname($path).'/':'').$newName,
-                $item
-            );
-            $this->notebook['tree'] = Utils::unsetArrayItem(
-                $this->notebook['tree'],
-                $path
-            );
-
-        //create the item
-        } elseif($success) {
-            if($isDir) {
-                if(!file_exists($absPath))
-                    $success = mkdir($absPath, 0700, true);
-                $value = array();
-            } else {
-                $success = touch($absPath);
-                $value = true;
-            }
-
-            $this->notebook['tree'] = Utils::setArrayItem($this->notebook['tree'], $path, $value);
-        }
-
-        //save notebook.json file
-        if($success) {
-            $this->notebook['updated'] = time();
-            $success = Utils::saveJson($this->notebookFile, $this->notebook);
-        }
-
-        return $success;
+        && Utils::saveJson($this->notebooksFile, $this->notebooks);
     }
 
     /**
@@ -204,37 +189,158 @@ class Jotter {
      * @param string $sourcePath path to the item to move (can be a note or directory, never empty)
      * @param string $destPath   path to destination (must be a directory or empty for the notebook root)
      */
-    public function moveItem($sourcePath, $destPath) {
-        $success = true;
+    public function moveItem($sourcePath, $destPath)
+    {
+        // NOTE: Ambos Paths estan codificados
+
+        $success  = true;
         $itemName = basename($sourcePath);
 
-        // if source and destination truly are different
-        if($sourcePath != $destPath.'/'.$itemName) {
-            //rename item
-            $success = rename($this->notebookPath.'/'.$sourcePath, $this->notebookPath.'/'.$destPath.'/'.$itemName);
+        // Verificar si la ruta de origen y destino son realmente diferentes
+        if ($sourcePath != $destPath . '/' . $itemName) {
+            // Renombrar el ítem (mover)
+            $sourceFullPath = $this->safeNbPath . '/' . $sourcePath;
+            $destFullPath   = $this->safeNbPath . '/' . $destPath . '/' . $itemName;
 
-            //change corresponding key in tree array
-            if($success) {
-                $item = Utils::getArrayItem(
-                    $this->notebook['tree'],
-                    $sourcePath
-                );
-                $this->notebook['tree'] = Utils::setArrayItem(
-                    $this->notebook['tree'],
-                    $destPath.(!empty($destPath)?'/':'').$itemName,
-                    $item
-                );
-                $this->notebook['tree'] = Utils::unsetArrayItem(
-                    $this->notebook['tree'],
-                    $sourcePath
-                );
+            // Crear directorios de destino si no existen
+            $destDir = dirname($destFullPath);
+            if (! is_dir($destDir)) {
+                mkdir($destDir, 0777, true);
+            }
 
+            // Verificar si el destino contiene un archivo con el mismo nombre y generar un nombre único si es necesario
+            $destFullPath = $this->getUniqueDestinationPath($destFullPath);
+
+            // Mover el ítem
+            $success = rename($sourceFullPath, $destFullPath);
+
+            // Cambiar la clave correspondiente en el array del árbol
+            if ($success) {
+                $this->updateTreePaths($sourcePath, $destPath . '/' . $itemName);
+
+                // Actualizar la marca de tiempo de la libreta
                 $this->notebook['updated'] = time();
+
+                // Guardar los cambios en el archivo JSON
                 $success = Utils::saveJson($this->notebookFile, $this->notebook);
             }
         }
 
         return $success;
+    }
+
+    private function updateTreePaths($oldPath, $newPath)
+    {
+        $oldPath = trim($oldPath, '/');
+        $newPath = trim($newPath, '/');
+
+        // Obtener los ítems del árbol en la ruta antigua
+        $item = Utils::getArrayItem($this->notebook['tree'], $oldPath);
+
+        // Si el ítem es un directorio, actualizar recursivamente sus contenidos
+        if (is_array($item)) {
+            foreach ($item as $key => $value) {
+                $subOldPath = $oldPath . '/' . $key;
+                $subNewPath = $newPath . '/' . $key;
+                $this->updateTreePaths($subOldPath, $subNewPath);
+            }
+        }
+
+        // Establecer el ítem en la nueva ubicación y eliminarlo de la ubicación antigua
+        $this->notebook['tree'] = Utils::setArrayItem($this->notebook['tree'], $newPath, $item);
+        $this->notebook['tree'] = Utils::unsetArrayItem($this->notebook['tree'], $oldPath);
+    }
+
+    private function getUniqueDestinationPath($destFullPath)
+    {
+        $pathInfo  = pathinfo($destFullPath);
+        $dirname   = $pathInfo['dirname'];
+        $basename  = $pathInfo['basename'];
+        $filename  = $pathInfo['filename'];
+        $extension = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
+
+        $counter = 1;
+        while (file_exists($destFullPath)) {
+            $destFullPath = $dirname . '/' . $filename . ' (' . $counter . ')' . $extension;
+            $counter++;
+        }
+
+        return $destFullPath;
+    }
+
+    public function loadItem($path)
+    {
+        return Utils::getArrayItem($this->notebook['tree'], $this->safeEncodePath($path)); // Obtiene el item
+    }
+
+    // Función para actualizar múltiples valores usando una ruta
+    public function updateValues(&$array, $itemPath, $updates)
+    {
+        $itemParts = explode('/', $itemPath);
+        return $this->recursiveUpdate($array, $itemParts, $updates);
+    }
+
+    private function recursiveUpdate(&$array, $itemParts, $updates)
+    {
+        $currentPart = array_shift($itemParts);
+
+        if (isset($array[$currentPart])) {
+            if (empty($itemParts)) {
+                // Última parte de la ruta, aplicar actualizaciones solo a los valores existentes
+                if (is_array($array[$currentPart])) {
+                    foreach ($updates as $updateKey => $updateValue) {
+                        if (isset($array[$currentPart][$updateKey])) {
+                            $array[$currentPart][$updateKey] = $updateValue;
+                        }
+                    }
+                    return true;
+                }
+                return false; // No es un array, no se pueden aplicar actualizaciones
+            } else {
+                // Continuar recursión
+                return $this->recursiveUpdate($array[$currentPart], $itemParts, $updates);
+            }
+        } elseif (is_array($array)) {
+            // Buscar en subarrays
+            foreach ($array as &$value) {
+                if (is_array($value)) {
+                    if ($this->recursiveUpdate($value, $itemParts, $updates)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    // Función para renombrar un directorio o archivo usando rutas
+    public function renameItem(&$array, $oldItemPath, $newItemPath)
+    {
+        $oldItemParts = explode('/', $oldItemPath);
+        $newItemParts = explode('/', $newItemPath);
+
+        if (count($oldItemParts) !== count($newItemParts)) {
+            return false; // Las rutas no coinciden en longitud
+        }
+        return $this->recursiveRename($array, $oldItemParts, $newItemParts);
+    }
+
+    private function recursiveRename(&$array, $oldItemParts, $newItemParts)
+    {
+        $currentOldPart = array_shift($oldItemParts);
+        $currentNewPart = array_shift($newItemParts);
+        if (isset($array[$currentOldPart])) {
+            if (empty($oldItemParts)) {
+                // Última parte de la ruta, renombrar el elemento
+                $array[$currentNewPart] = $array[$currentOldPart];
+                unset($array[$currentOldPart]);
+                return true;
+            } else {
+                // Continuar recursión
+                return $this->recursiveRename($array[$currentOldPart], $oldItemParts, $newItemParts);
+            }
+        }
+        return false;
     }
 
     /**
@@ -243,18 +349,74 @@ class Jotter {
      * @param string $newName New name for directory, false if not needed
      * @return boolean        True on success
      */
-    public function setDirectory($path, $newName = false) {
-        return $this->setItem($path, true, $newName);
-    }
+    public function setItem(array $params)
+    {
 
-    /**
-     * Add or edit (rename) a note
-     * @param string $path    Relative path to note (with extension)
-     * @param string $newName New name for note (with extension), false if not needed
-     * @return boolean        True on success
-     */
-    public function setNote($path, $newName = false, $data = false) {
-        return $this->setItem($path, false, $newName, $data);
+        // Valores por defecto para los parámetros opcionales
+        $defaults = [
+            'name'      => '',
+            'new_name'  => false,
+            'chapter'   => '',
+            'slug'      => '',
+            'hidden'    => false,
+            'unindexed' => false,
+        ];
+        $rename = false;
+
+        $params = array_merge($defaults, $params); // Mezclar los parámetros proporcionados con los valores por defecto
+        extract($params);                          // Asignar los parámetros a variables
+
+        // NOTE: $name es un path sin codificar
+        $safeName = $this->safeEncodePath($name);
+        $absPath  = $this->safeNbPath . '/' . $safeName;
+        // $item = $this->loadItem($name); // loadItem usa safeEncodePath
+
+        if ($new_name !== false) {
+            $rename      = true;
+            $safeNewName = $this->safeEncodePath($new_name);
+        }
+
+        // New item
+
+        $values = [
+            "chapter"   => $chapter,
+            "slug"      => $slug,
+            "hidden"    => $hidden,
+            "unindexed" => $unindexed,
+        ];
+
+        $isNote = substr($name, -3) == '.md';
+        $exists = $isNote ? file_exists($absPath) : is_dir($absPath);
+
+        if (! $exists && ! $rename) {
+
+            // ADD NEW
+
+            if ($isNote) {
+                $success = touch($absPath); // Crea el archivo
+            } else {
+                $success = mkdir($absPath, 0700, true); // Crea el subdirectorio
+                if ($success) {
+                    $filePath = $absPath . DIRECTORY_SEPARATOR . 'index.md';
+                    $success  = touch($filePath);
+                }
+            }
+            $this->notebook['tree'] = Utils::setArrayItem($this->notebook['tree'], $safeName, $values); // TODO
+        } else {
+
+            // UPDATE
+
+            $this->notebook = Utils::loadJson($this->notebookFile);
+            $this->updateValues($this->notebook['tree'], $safeName, $values);
+            if ($rename) {
+                $success = rename($absPath, ($this->safeNbPath . '/' . $safeNewName));
+                $this->renameItem($this->notebook['tree'], $safeName, $safeNewName);
+            }
+        }
+        $this->notebook['updated'] = time();
+        $success                   = Utils::saveJson($this->notebookFile, $this->notebook);
+
+        return $success;
     }
 
     /**
@@ -262,17 +424,14 @@ class Jotter {
      * @param string $path Relative path to note (with extension)
      * @return boolean     True on success
      */
-    public function setNoteText($path, $text) {
-        $absPath = $this->notebookPath.'/'.$path;
-
-        //strict wysiwyg (only some tags allowed)
-        if((!isset($this->notebook['editor']) || $this->notebook['editor'] == 'wysiwyg')
-            && (!isset($this->notebook['safe']) || $this->notebook['safe'] == true)
-        ) {
-            $text = $this->safeHtml($text);
-        }
-
+    public function setNote($path, $text)
+    {
+        $absPath = $this->safeNbPath . '/' . $this->safeEncodePath($path);
         return Utils::saveFile($absPath, $text);
+/*
+$absPath = $this->safeNbPath . '/debug.md';
+return Utils::saveFile($absPath, $this->safeEncodePath('hércules.md'));
+ */
     }
 
     /**
@@ -281,11 +440,12 @@ class Jotter {
      * @param  boolean $parse force Markdown to HTML parsing
      * @return string         note content
      */
-    public function loadNote($path, $parse = false) {
-        $content = Utils::loadFile($this->notebookPath.'/'.$path);
+    public function loadNote($path, $parse = false)
+    {
+        $content = Utils::loadFile($this->safeNbPath . '/' . $this->safeEncodePath($path));
 
         //convert Markdown to HTML
-        if($content !== false && $parse) {
+        if ($content !== false && $parse) {
             $content = \Michelf\MarkdownExtra::defaultTransform($content);
         }
 
@@ -293,175 +453,29 @@ class Jotter {
     }
 
     /**
-     * Delete a note (file and occurence in json)
-     * @param  string  $path relative path to note
-     * @return boolean       true on success
+     * Delete a note/directory (file and occurence in json)
+     * @param  string    $path relative path to note
+     * @param  boolean    $isNote
+     * @return boolean    true on success
      */
-    public function unsetNote($path) {
-        $this->notebook['tree'] = Utils::unsetArrayItem($this->notebook['tree'], $path);
+    public function unsetItem($path, $isNote)
+    {
+        $safePath                  = $this->safeEncodePath($path);
+        $this->notebook['tree']    = Utils::unsetArrayItem($this->notebook['tree'], $safePath);
         $this->notebook['updated'] = time();
-        $absPath = $this->notebookPath.'/'.$path;
+        $absPath                   = $this->safeNbPath . '/' . $safePath;
 
-        return unlink($absPath)
+        if ($isNote) {
+            if (! file_exists($absPath)) {
+                // El archivo no existe...
+                return false;
+            }
+            return unlink($absPath)
             && Utils::saveJson($this->notebookFile, $this->notebook);
-    }
-
-    /**
-     * Delete a directory (file and occurence in json) and everything in it
-     * @param  string  $path relative path to directory
-     * @return boolean       true on success
-     */
-    public function unsetDirectory($path) {
-        $this->notebook['tree'] = Utils::unsetArrayItem($this->notebook['tree'], $path);
-        $this->notebook['updated'] = time();
-        $absPath = $this->notebookPath.'/'.$path;
-
-        return Utils::rmdirRecursive($absPath)
+        } else {
+            return Utils::rmdirRecursive($absPath)
             && Utils::saveJson($this->notebookFile, $this->notebook);
-    }
-
-    /**
-     * Only keep allowed HTML tags
-     * @param  string $html HTML input
-     * @return string       HTML output
-     */
-    public function safeHtml($html) {
-        $doc = new DOMDocument();
-        $doc->loadHTML($html);
-
-        $doc = $this->safeHtmlRecursive($doc);
-
-        $html = preg_replace(
-            '/^<!DOCTYPE.+?>/',
-            '',
-            str_replace(
-                array('<html>', '</html>', '<body>', '</body>'),
-                array('', '', '', ''),
-                $doc->saveHTML()
-            )
-        );
-
-        return $html;
-    }
-
-    /**
-     * Recursive function to turn a DOMDocument element to an
-     * @param  DomDocument $doc     Dom to convert and simplify
-     * @param  DomElement  $current (for recursive purpose only) current node
-     * @param  integer     $level   (for recursive purpose only) current node level
-     * @return misc                 resulting DomDocument (and pointer to "current Node" in recursive call)
-     */
-    public function safeHtmlRecursive($doc, $current = null, $docSafe = null, $parentSafe = null, $level = 0) {
-        $root = false;
-        if($level == 0) {
-            $root = true;
-            $current = $doc;
-            $docSafe = new DOMDocument();
-            $parentSafe = $docSafe;
         }
 
-        //remove these entirely
-        $blacklist = array(
-            'script', 'frame', 'iframe', 'frameset',
-            'applet', 'object', 'embed', 'style',
-            /*'form', 'fieldset', 'label',*/ 'input', 'textarea', 'button',
-            'legend', 'select', 'optgroup', 'option', 'datalist', 'keygen', 'output'
-        );
-
-        //keep these
-        $whiteListBlock = array(
-            'p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'ol', 'ul', 'hr'
-        );
-        $whiteListInline = array(
-            'strong', 'em'
-        );
-
-        //turn these into <p>
-        $greyListBlock = array(
-            'blockquote', 'code', 'pre',
-            'dd', 'dt', 'dl', 'table',
-            'header', 'nav', 'aside', 'section', 'article', 'footer'
-        );
-
-        //keep these and some of their attributes
-        $specialList = array('a', 'img');
-
-        //for any other tag: remove tag and keep content
-
-        foreach ($current->childNodes as $node) {
-            $currentSafe = null;
-            $isTextNode = false;
-            $append = true;
-            $getChildren = true;
-            $tag = $node->nodeName;
-            $getChildren = $node->hasChildNodes();
-            
-            if($node->nodeType == XML_TEXT_NODE || $node->nodeType == XML_CDATA_SECTION_NODE) {
-                $isTextNode = true;
-                $getChildren = false;
-            } elseif(in_array($tag, $blacklist)) {
-                $append = false;
-                $getChildren = false;
-            } elseif(in_array($tag, $greyListBlock)) {
-                $tag = 'p';
-            } elseif(!in_array($tag, $whiteListBlock)
-                && !in_array($tag, $whiteListInline)
-                && !in_array($tag, $specialList)
-            ) {
-                $append = false;
-                $currentSafe = $parentSafe;
-            }
-
-            //append node
-            if($append) {
-                if($isTextNode) {
-                    $currentSafe = $docSafe->createTextNode( htmlentities($node->nodeValue) );
-                } else {
-                    $currentSafe = $docSafe->createElement($tag);
-                }
-
-                //handle special cases
-                if($tag == 'a') {
-                    $href = $this->safeUrl($node->getAttribute('href'));
-                    $currentSafe->setAttribute('href', $href);
-                } elseif($tag == 'img') {
-                    $src = $this->safeUrl($node->getAttribute('src'));
-                    $currentSafe->setAttribute('src', $src);
-                }
-
-                $parentSafe->appendChild($currentSafe);
-            }
-
-            //recursive call
-            if($getChildren) {
-                $this->safeHtmlRecursive($doc, $node, $docSafe, $currentSafe, $level+1);
-            }
-        }
-
-        if($level == 0) {
-            return $docSafe;
-        }
-    }
-
-    /**
-     * Only keep allowed HTML tags
-     * @param  string $html HTML input
-     * @return string       HTML output
-     */
-    public function safeUrl($url) {
-        $whiteListProtocol = array(
-            'http', 'https', 'ftp', 'mailto', 'data'
-        );
-
-        $parsed = parse_url($url);
-        if($parsed == false ||
-            isset($parsed['scheme']) && !in_array($parsed['scheme'], $whiteListProtocol)
-        ) {
-            $url = '';
-        }
-
-        return $url;
     }
 }
-
-?>

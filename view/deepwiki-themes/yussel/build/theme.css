@@ -31,6 +31,30 @@
   margin-top: .3125rem;
   margin-bottom: .3125rem;
 }
+
+/* Header */
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  color: #70757a;
+}
+
+/* Images */
+
+[class^="max-y"] {
+  width: auto; /* Mantiene la proporción de la imagen */
+}
+.max-y-100 {
+  max-height: 100px; /* Ajusta la altura... */
+}
+.max-y-200 { max-height: 200px; }
+.max-y-300 { max-height: 300px; }
+.max-y-400 { max-height: 400px; }
+.max-y-500 { max-height: 500px; }
+.max-y-600 { max-height: 600px; }
+.max-y-700 { max-height: 700px; }
+.max-y-800 { max-height: 800px; }
+.max-y-900 { max-height: 900px; }
+
 /* prism */
 
 .copy-to-clipboard-button {

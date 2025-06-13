@@ -7,7 +7,8 @@
 			"build/bootstrap/embed.css",
 			"build/github/5.1.0/github-markdown.min.css",
 			"build/md.css",
-			"build/theme.css"
+			"build/theme.css",
+			"build/components.css"
 		],
 		"head-js": [],
 		"js": [
@@ -20,7 +21,8 @@
 			"build/lottie/lottie-anim-site-connection-timeout.js"
 		],
 		"404-css": [
-			"build/lottie/lottie-animation.css"
+			"build/lottie/lottie-animation.css",
+			"build/400.css"
 		]
 	}
 }

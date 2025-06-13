@@ -70,8 +70,7 @@ if ($option == 'myPassword') {?>
 
     <div class="bg-light p-5 rounded">
         <h2>Eliminar usuario</h2>
-        <p class="lead">Está a punto de eliminar el usuario <strong><mark><?php echo $login; ?></mark></strong> y todos sus cuadernos.
-        ¡No hay vuelta atrás!</p>
+        <p class="lead">Estás a punto de eliminar el usuario <strong><?php echo $login; ?></strong>.</p>
         <form method="post" action="">
             <input id="deleteUserSubmit" class="btn btn-lg btn-danger my-2" name="deleteUserSubmit" type="submit" value="Eliminar">
         </form>

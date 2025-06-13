@@ -1,3 +1,5 @@
+*.DS_Store
+
 # gitignore: especifica los archivos que deben ser ignorados por Git
 edit/data
 edit/cache

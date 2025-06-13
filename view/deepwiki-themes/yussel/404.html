@@ -5,41 +5,16 @@
 		<title>No encontrado &raquo; {{site_name}}</title>
 		<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.3/lottie.min.js"></script>
-		{{html_head}}
 		{{head_404}}
+		<link rel="stylesheet" href="https://yussel.com.mx/asset/css/apercu.css">
 	</head>
-	<body>
-		<header class="bg-dark text-white py-3 mb-3 border-bottom">
-			<div class="container-fluid d-grid align-items-center">
-				<div class="d-flex align-items-center">
-					<div class="d-flex mb-2 mb-lg-0">
-						<img src="dist/y-dark.svg" alt="" width="40" height="40" class="me-2">
-					</div>
-					<nav class="me-auto">
-						<ol class="di nav">
-							<li class="nav-item"><a href="../" class="nav-link px-2 text-white dim">Inicio</a></li>
-						</ol>
-					</nav>
-					<a href="../edit" class="btn btn-outline-light text-end">Editor</a>
-				</div>
-			</div>
-		</header>
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-sm-4 col-md-3">
-					<div id="animation" class="animation" style="display: block;">
-						<img id="illustration" src="img/dog.svg" alt="">
-					</div>
-				</div>
-				<section id="wiki-404" class="col-sm-8 col-md-9" role="main">
-					<div class="alert alert-warning" role="alert">
-						<p>Lo sentimos, pero estás buscando algo que no está aquí.</p>
-					</div>
-				</section>
-			</div>
-			<footer class="py-3 mt-5 text-muted border-top">
-				yussel.com.mx © 2022 {{body_footer}} {{logout_link}}
-			</footer>
+	<body class="min-h-screen bg-stone-200 text-xl pt-4 pb-4 gap-4 flex flex-col items-center justify-center">
+		<div id="animation" class="animation mb-2">
+			<img id="illustration" src="img/dog.svg" alt="">
 		</div>
+		<h1>404</h1>
+		<p>No encontramos la página que buscas.</p>
+		<br><br>
+		<a class="btn --solid" href="../">Inicio</a>
 	</body>
 </html>

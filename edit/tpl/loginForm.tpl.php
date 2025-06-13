@@ -5,7 +5,7 @@ include DIR_TPL . 'header.tpl.php';
 <?php if (!$appInstalled) {?>
 
     <h1 class="h3 mb-3 font-weight-normal">Instalar</h1>
-    <p>Está a punto de instalar Yotter y crear su primera cuenta de usuario.</p>
+    <p>Está a punto de instalar notas y crear su primera cuenta de usuario.</p>
     <p>Comprobación de requisitos:</p>
     <ul>
         <li class="<?php echo $phpMinVersion ? 'success' : 'error'; ?>">
@@ -31,9 +31,9 @@ include DIR_TPL . 'header.tpl.php';
 <div class="text-center">
     <main class="form-signin">
       <form id="loginForm" method="post" action="">
-        <img class="mb-4" src="../view/dist/y-black.svg" alt="" width="66" height="66">
-        <h1 class="h3 mb-3 fw-normal">Iniciar sesión</h1>
-        <div class="form-floating">
+        <img class="mb-4" src="../icon/n.svg" alt="" width="66" height="66">
+        <h1 class="h3 mb-3 fw-normal">Accede tu cuenta</h1>
+        <div class="form-floating mb-2">
           <input type="text" class="form-control" id="login" name="login" placeholder="Nombre de usuario" required="true" autofocus="autofocus" value="<?php echo isset($_POST['login']) ? $_POST['login'] : ''; ?>">
           <label for="login">Nombre de usuario</label>
         </div>
@@ -41,12 +41,12 @@ include DIR_TPL . 'header.tpl.php';
           <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required="true">
           <label for="password">Contraseña</label>
         </div>
-        <div class="checkbox mb-3">
+        <div class="checkbox my-3">
           <label>
             <input type="checkbox" id="remember" name="remember" value="remember" checked="true"> Mantener la sesión iniciada
           </label>
         </div>
-        <input class="w-100 btn btn-lg btn-primary" type="submit" id="submitLoginForm" name="submitLoginForm" value="Iniciar sesión"></input>
+        <input class="w-100 btn btn-lg btn-primary" type="submit" id="submitLoginForm" name="submitLoginForm" value="Enviar"></input>
       </form>
     </main>
 </div>

@@ -23,7 +23,7 @@
 			}
 
 			$('#evo-color').colorpicker({
-				color: '#42ba96',
+				color: '<?php echo $evo_color; ?>',
 				customTheme: ['#DA4453', '#FCBB42', '#37BC9B', '#3BAFDA', '#4A89DC', '#967ADC', '#D770AD', '#AAB2BD', '#434A54'],
 				transparentColor: false,
 				strings: "Colores,Colores básicos,Más colores,Menos colores,Paleta,Historial,Aún no hay historial."

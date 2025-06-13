@@ -1,3 +1,6 @@
+/*
+TODO: Theme DARK
+
 @media (prefers-color-scheme:dark) {
 	.bd-intro {
 		--color-canvas-subtle: #161b22;
@@ -7,23 +10,20 @@
 	}
 
 }
-
 @media (prefers-color-scheme:light) {
-	.bd-intro {
-		--color-canvas-subtle: #f6f8fa;
-		--color-border-default: #d0d7de;
-		--color-border-muted: hsla(210, 18%, 87%, 1);
-		--color-neutral-muted: rgba(175, 184, 193, 0.2);
-	}
 
 }
-
+*/
 .bd-intro {
+	--color-canvas-subtle: #f6f8fa;
+	--color-border-default: #d0d7de;
+	--color-border-muted: hsla(210, 18%, 87%, 1);
+	--color-neutral-muted: rgba(175, 184, 193, 0.2);
 	overflow-x: auto;
 }
 
 .bd-intro > #title:first-child {
-	padding-top: 3rem;
+	margin-top: 1rem;
 }
 
 .bd-intro table {
@@ -65,7 +65,7 @@
 .bd-intro ol ul,
 .bd-intro ul ol,
 .bd-intro ul ul {
-	margin-top: 0;
+	margin-top: 1rem;
 	margin-bottom: 0
 }
 
@@ -82,14 +82,20 @@
 }
 
 .bd-intro dl dt {
-	padding: 0;
-	margin-top: 16px;
-	font-size: 1rem;
-	font-style: italic;
-	font-weight: 600
+	padding: 0 0 0 8px;
+	margin-top: 2.4rem;
+    font-size: 1.2rem;
+    color: #111;
+	/* font-style: italic; No hay un estilo en negritas de Apersu italic */ 
+	font-weight: 900;
 }
 
 .bd-intro dl dd {
 	padding: 0 16px;
 	margin-bottom: 16px
 }
+
+@media (min-width: 768px) {
+	/* mobile  */
+}
+

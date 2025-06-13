@@ -2,38 +2,42 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Sólo una app para tomar notas o apuntes de forma fácil y rápida.</title>
+        <meta content="Un App para tomar apuntes de forma fácil y rápida." name="description">
+        <meta content="width=device-width,initial-scale=1" name="viewport">
+        <link rel="icon" href="../icon/32.png" type="image/png">
+        <link rel="icon" href="../icon/32.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" sizes="180x180" href="../icon/180.png">
+
+        <link rel="icon" href="../icon/32.png" type="image/png">
+        <link rel="icon" href="../icon/32.svg" type="image/svg+xml">
+        <link rel="apple-touch-icon" sizes="180x180" href="../icon/180.png">
+
+        <title>editor</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="<?php echo URL_TPL; ?>style.css">
-        <link rel="icon" type="image/png" href="<?php echo URL_TPL; ?>img/yotter-icon-16.png"/>
         <script src="<?php echo URL_TPL; ?>js/main.js"></script>
         <?php if ($isNote && $isEditMode) {?>
-        <script src="<?php echo URL_TPL; ?>js/editor.js"></script>
-        <?php if ($isWysiwyg) {?>
-        <script src="<?php echo URL_TPL; ?>js/ext/jquery.hotkeys.js"></script>
-        <script src="<?php echo URL_TPL; ?>js/ext/bootstrap.min.js"></script>
-        <script src="<?php echo URL_TPL; ?>js/ext/bootstrap-wysiwyg.js"></script>
-        <script src="<?php echo URL_TPL; ?>js/editor-wysiwyg.js"></script>
-        <?php } //isWysiwyg ?>
-        <script>
-        window.addEventListener('load', function (){
-        //instanciate editor tools
-        var editor = new <?php echo $isWysiwyg ? 'WysiwygEditor' : 'BaseEditor'; ?>();
-        editor.init();
-        });
-        </script>
-        <?php } else {?>
-        <?php }?>
+            <script src="<?php echo URL_TPL; ?>js/editor.js"></script>
+            <script>
+            window.addEventListener('load', function (){
+                var editor = new BaseEditor();
+                editor.init();
+            });
+            </script>
+        <?php }
+$isAdmin = (isset($user['login'])) ? ($user['login'] == 'realyussel') : false;
+?>
     </head>
     <body>
         <header class="navbar navbar-expand-md bg-dark text-white py-3 border-bottom">
-            <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
-                <a class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none" aria-label="Bootstrap" href=".." >
-                    <img src="../view/dist/y-dark.svg" alt="" width="40" height="40" class="me-2">
+            <nav class="container-xxl flex-wrap flex-md-nowrap">
+                <a class="d-flex align-items-center mb-2 mb-lg-0 dim" href=".." >
+                    <img src="../icon/32.svg" alt="" width="40" height="40" class="me-2">
                 </a>
                 <!--?php echo VERSION; ?-->
                 <!-- a.active -->
                 <div class="collapse navbar-collapse" id="bdNavbar">
+                    <?php if ($user['isLoggedIn']) {?>
                     <ul class="di nav me-auto">
                         <li>
                             <a class="nav-link dim px-2" href="<?php echo URL; ?>" title="Cuadernos"><img src="<?php echo URL_TPL; ?>img/header/books.svg" alt="Cuadernos"></a>
@@ -44,15 +48,14 @@
                         <li>
                             <a class="nav-link dim px-2" href="<?php echo URL; ?>?action=config" title="Configuración"><img src="<?php echo URL_TPL; ?>img/feather/settings.svg" alt="Configuración"></a>
                         </li>
-                        <?php if ($user['isLoggedIn']) {?>
                         <li>
-                            <a class="nav-link dim px-2" href="<?php echo URL; ?>?action=logout" title="Cerrar sesión" target="_blank" rel="noopener"><img src="<?php echo URL_TPL; ?>img/feather/log-out.svg" alt="Cerrar sesión"></a>
+                            <a class="nav-link dim px-2" href="<?php echo URL; ?>?action=logout" title="Cerrar sesión"><img src="<?php echo URL_TPL; ?>img/feather/log-out.svg" alt="Cerrar sesión"></a>
                         </li>
-                        <?php }?>
                     </ul>
-                    <a class="btn btn-outline-light text-end" href="..">Visor</a>
-                    <a class="btn ms-3 btn-outline-light text-end" href="<?php echo URL; ?>/filemanager">Archivos</a>
-                    <!--a class="ps-3 dim" -->
+                    <a class="btn btn-outline-light text-end" href="<?php echo URL; ?>filemanager" target="_blank">Archivos</a>
+                     <?php } else {?>
+                        <span class="fs-4 px-2">Editor</span>
+                    <?php }?>
                 </div>
             </nav>
         </header>
@@ -65,59 +68,6 @@
                             <img src="<?php echo URL_TPL; ?>img/guardado.svg" alt="Guardar apunte">
                         </a>
                     </li>
-                    <?php if ($isWysiwyg) {?>
-                    <li class="nav-item">
-                        <a href="#" id="headingDropDown" class="ajax-formatter btn btn-light" data-toggle="dropdown" title="Título">
-                            <img src="<?php echo URL_TPL; ?>img/feather/type.svg" alt="Título">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-light" data-edit="bold" title="Negrita (Ctrl+B)">
-                            <img src="<?php echo URL_TPL; ?>img/feather/bold.svg" alt="Negrita">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-light" data-edit="italic" title="Itálica (Ctrl+I)">
-                            <img src="<?php echo URL_TPL; ?>img/feather/italic.svg" alt="Itálica">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-light" data-edit="insertunorderedlist" title="Lista desordenada">
-                            <img src="<?php echo URL_TPL; ?>img/feather/list.svg" alt="Lista desordenada">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-light" data-edit="insertorderedlist" title="Ordered list">
-                            <img src="<?php echo URL_TPL; ?>img/edit-list-order.png" alt="Ordered List">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" id="linkDropdown" class="ajax-formatter btn btn-light" data-toggle="dropdown" title="Enlace">
-                            <img src="<?php echo URL_TPL; ?>img/feather/link.svg" alt="Enlace">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-light" data-edit="unlink" title="Quitar enlace">
-                            <img src="<?php echo URL_TPL; ?>img/feather/slash.svg" alt="Quitar enlace">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-light" id="picture-button" title="Insertar imagen (o arrastre y suelte en su texto)">
-                            <img src="<?php echo URL_TPL; ?>img/feather/image.svg" alt="Insertar imagen">
-                        </a>
-                        <input type="file" id="hidden-picture-button" data-target="#picture-button" data-edit="insertImage" />
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" id="mdash-button" class="btn btn-light dim" title="Insert em dash">
-                            &mdash;
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" id="source-button" class="btn btn-light dim" title="Ver código">
-                            <img src="<?php echo URL_TPL; ?>img/feather/code.svg" alt="Ver código">
-                        </a>
-                    </li>
-                    <?php } else { // End isWysiwyg?>
                     <li class="nav-item">
                         <a href="#" class="btn btn-outline-secondary dim" id="modal-header" title="Título"></a>
                         <ul class="modal-menu bg-white rounded shadow-sm" id="menu-header">
@@ -189,55 +139,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="https://help.github.com/es/github/writing-on-github/basic-writing-and-formatting-syntax" target="blank" id="markdown-button" class="btn btn-link dim" title="Mostrar ayuda de sintaxis de Markdown">
+                        <a href="https://yussel.com.mx/notas/view/index.php?usr=realyussel&nb=Notas" target="blank" id="markdown-button" class="btn btn-link dim" title="Mostrar ayuda de sintaxis de Markdown">
                             <img src="<?php echo URL_TPL; ?>img/header/help-circle.svg" alt="Markdown">
                         </a>
                     </li>
-                    <?php } // not isWysiwyg ?>
                 </ul>
-                <?php if ($isNote && $isEditMode && $isWysiwyg) {?>
-                <div class="" id="insertLink" style="display: none;">
-                    <input placeholder="http://" type="text" data-edit="createLink"/>
-                    <button type="button">Add</button>
-                </div>
-                <ul class="actions" id="headingButtons" style="display: none;">
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-secondary" data-edit="formatBlock h1" title="Title level 1">
-                            <img src="<?php echo URL_TPL; ?>img/edit-heading-1.png" alt="Level 1">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-secondary" data-edit="formatBlock h2" title="Title level 2">
-                            <img src="<?php echo URL_TPL; ?>img/edit-heading-2.png" alt="Level 2">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-secondary" data-edit="formatBlock h3" title="Title level 3">
-                            <img src="<?php echo URL_TPL; ?>img/edit-heading-3.png" alt="Level 3">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-secondary" data-edit="formatBlock h4" title="Title level 4">
-                            <img src="<?php echo URL_TPL; ?>img/edit-heading-4.png" alt="Level 4">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-secondary" data-edit="formatBlock h5" title="Title level 5">
-                            <img src="<?php echo URL_TPL; ?>img/edit-heading-5.png" alt="Level 5">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-secondary" data-edit="formatBlock h6" title="Title level 6">
-                            <img src="<?php echo URL_TPL; ?>img/edit-heading-6.png" alt="Level 6">
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="ajax-formatter btn btn-secondary" data-edit="formatBlock p" title="Turn title into a paragraph">
-                            <img src="<?php echo URL_TPL; ?>img/edit-heading-minus.png" alt="Paragraph">
-                        </a>
-                    </li>
-                </ul>
-                <?php } // $isNote ?>
             </div>
         </nav>
         <?php } // $isNote & isEditMode ?>
@@ -247,128 +153,146 @@
                     <div id="panel" class="sidebar-sticky">
                         <form action="">
                             <select name="nb" id="notebookSelect" class="form-control w-100">
-                                <option value="!nothing!" default selected>&raquo; Seleccione un cuaderno</option>
+                                <option value="!nothing!" default selected>Seleccionar un cuaderno</option>
                                 <optgroup label="Cargar un cuaderno">
                                     <?php if (!empty($notebooks[$user['login']])) {
-                                    foreach ($notebooks[$user['login']] as $key => $value) {?>
+	foreach ($notebooks[$user['login']] as $key => $value) {?>
                                     <option value="<?php echo $key; ?>"><?php echo urldecode($key); ?></option>
-                                    <?php }}?>
+                                    <?php }
+}?>
                                 </optgroup>
-                                <option value="!new!">&raquo; Crea un nuevo cuaderno</option>
+                                <option value="!new!">&raquo; Crear un nuevo cuaderno</option>
                             </select>
                         </form>
                         <?php if (isset($notebook['tree'])) {
-                        ?>
+	?>
                         <div class="nb-header">
-                            <h3 <?php if (empty($_GET['item'])) {echo ' id="selected"';}?> data-path="">
-                            <a class="item nav-link link-dark" id="notebookTitle" href="?nb=<?php echo $notebookName; ?>" data-name="<?php echo $notebookName; ?>"><?php echo urldecode($notebookName); ?></a>
+                            <h3>
+                            <a class="item nav-link link-dark" id="notebookTitle" href="?nb=<?php echo $notebookName; ?>" data-name="<?php echo urldecode($notebookName); ?>"><?php echo urldecode($notebookName); ?></a>
                             </h3>
-                            <ul class="nav my-2 justify-content-center">
+                            <ul class="nav mb-2 justify-content-center">
                                 <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=edit" title="Editar cuaderno">
-                                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/edit-3.svg" alt="">
+                                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/edit-3.svg">
                                 </a></li>
-                                <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;item=<?php echo $itemPath; ?>&amp;action=addnote">
-                                    <img class="icon" src="tpl/img/feather/file-plus.svg" alt="Nuevo apunte">
+                                <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=addnote" title="Nuevo apunte">
+                                    <img class="icon" src="tpl/img/feather/file-plus.svg">
                                 </a></li>
-                                <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;item=<?php echo $itemPath; ?>&amp;action=adddir">
-                                    <img class="icon" src="tpl/img/feather/folder-plus.svg" alt="Nueva carpeta">
+                                <li class="nav-item"><a class="nav-link link-dark hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=adddir" title="Nueva carpeta">
+                                    <img class="icon" src="tpl/img/feather/folder-plus.svg">
                                 </a></li>
                                 <li class="nav-item"><a class="nav-link link-dark hover-light" target="_blank" href="../view/index.php?nb=<?php echo $notebookName; ?>&amp;usr=<?php echo $user['login']; ?>" title="Ver cuaderno">
-                                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/eye.svg" alt="">
+                                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/eye.svg">
                                 </a></li>
                                 <li class="nav-item"><a class="nav-link link-danger hover-light" href="<?php echo URL; ?>?nb=<?php echo $notebookName; ?>&amp;action=delete" title="Eliminar cuaderno">
-                                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/trash-2.svg" alt="">
+                                    <img class="icon" src="<?php echo URL_TPL; ?>img/feather/trash-2.svg">
                                 </a></li>
                             </ul>
                         </div>
+                        <?php function Tree2Html($tree, $nbName, $selectedPath, $parents = array()) {
+
+		//echo ($selectedPath);
+
+		$level = count($parents);
+		$html = str_repeat("\t", $level * 2) . "<ul";
+		if ($level == 0) {
+			$html .= ' id="root" class="subtree open"';
+		} else {
+			$html .= ' class="subtree open"';
+		}
+		$html .= ">\r\n";
+		foreach ($tree as $key => $value) {
+			$isArray = is_array($value);
+			$isNote = substr($key, -3) == '.md';
+
+			// Verificar el valor de 'hidden' y 'unindexed'
+			$chapter = isset($value['chapter']) ? (empty(trim($value['chapter']))) ? '' : $value['chapter'] . '. ' : '';
+			$slug = isset($value['slug']) ? (empty(trim($value['slug']))) ? '' : ' #/' . $value['slug'] : '';
+			$hidden = isset($value['hidden']) ? $value['hidden'] : null;
+			$unindexed = isset($value['unindexed']) ? $value['unindexed'] : null;
+
+			if ($isArray || $isNote) {
+
+				// IMPORTANTE: Este $path esta codificado por que se obtiene del JSON
+
+				$path = (!empty($parents) ? implode('/', $parents) . '/' : '') . $key;
+				$html .= str_repeat("\t", $level * 2 + 1)
+				. '<li class="' . ($isNote ? "file" : "directory") . ($hidden ? " hidden" : ($unindexed ? " unindexed" : " visible")) . '"'
+				. ($path == str_replace('/index.md', '', safeEncodePath($selectedPath)) ? ' id="selected"' : '') . ' data-path="' . urldecode($path) . '">';
+				//if array, show open/close button
+				if (!$isNote) {
+					$html .= '<a class="arrow open" href="#"></a>';
+				}
+				$html .= "\r\n" . str_repeat("\t", $level * 2 + 2);
+				$html .= '<div class="item-menu">';
+				$html .= '<img class="dropdown-arrow" src="' . URL_TPL . 'img/menu.svg" alt="...">';
+				$html .= '<div class="dropdown dropdown-menu shadow closed">';
+				$html .= '<a class="dropdown-item nav-link link-dark d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=edit" title="Editar &quot;' . $path . '&quot;">';
+				$html .= '<img class="icon" src="' . URL_TPL . 'img/feather/edit-3.svg" alt=""> Editar</a>';
+				$html .= '<a class="dropdown-item nav-link link-danger d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=delete" title="Eliminar &quot;' . $path . '&quot;">';
+				$html .= '<img class="icon" src="' . URL_TPL . 'img/feather/' . ($isNote ? "file" : "folder") . '-minus.svg" alt=""> Eliminar</a>';
+				if (!$isNote) {
+					$html .= '<a class="dropdown-item nav-link link-dark d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=addnote" title="Nuevo apunte aquí">';
+					$html .= '<img class="icon" src="' . URL_TPL . 'img/feather/file-plus.svg" alt=""> Nuevo apunte aquí</a>';
+					$html .= '<a class="dropdown-item nav-link link-dark d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=adddir" title="Nueva carpeta aquí">';
+					$html .= '<img class="icon" src="' . URL_TPL . 'img/feather/folder-plus.svg" alt=""> Nueva carpeta aquí</a>';
+				}
+				$html .= '</div>';
+				$html .= '</div>';
+				$html .= "\r\n" . str_repeat("\t", $level * 2 + 2);
+				// item
+				$html .= '<a draggable="true" class="item nav-link link-dark" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . ($isNote ? '">' : '/index.md">');
+				$html .= '<span class="font-monospace text-muted">' . $chapter . '</span>';
+				$html .= urldecode(basename($key, '.md'));
+				$html .= '<span class="fw-lighter fst-italic text-muted">' . $slug . '</span>';
+				$html .= '</a>';
+				//if array, show its children
+				if (!$isNote) {
+					$html .= "\r\n";
+					$html .= Tree2Html($value, $nbName, $selectedPath, array_merge($parents, (array) $key));
+				}
+				$html .= "\r\n" . str_repeat("\t", $level * 2 + 1);
+				$html .= "</li>\r\n";
+			}
+		}
+		$html .= str_repeat("\t", $level * 2) . "</ul>\r\n";
+		return $html;
+	}
+	echo Tree2Html($notebook['tree'], $notebookName, isset($_GET['item']) ? $_GET['item'] : '');?>
                         <?php
-                        function Tree2Html($tree, $nbName, $selectedPath, $parents = array()) {
-                                $level = count($parents);
-                                $html = str_repeat("\t", $level * 2) . "<ul";
-                                    if ($level == 0) {
-                                        $html .= ' id="root" class="subtree open"';
-                                    } else {
-                                        $html .= ' class="subtree open"';
-                                    }
-                                    $html .= ">\r\n";
-                                    foreach ($tree as $key => $value) {
-                                        $isArray = is_array($value);
-                                        $isNote = substr($key, -3) == '.md';
-                                        if ($isArray || $isNote) {
-                                            //path to element
-                                            $path = (!empty($parents) ? implode('/', $parents) . '/' : '') . $key;
-                                            $html .= str_repeat("\t", $level * 2 + 1)
-                                                . '<li class="' . ($isArray ? "directory" : "file") . '"'
-                                                    . ($path == $selectedPath ? ' id="selected"' : '')
-                                                    . ' data-path="' . $path . '">';
-                                                //if array, show open/close button
-                                                if ($isArray) {
-                                                    $html .= '<a class="arrow open" href="#"></a>';
-                                                }
-                                                $html .= "\r\n" . str_repeat("\t", $level * 2 + 2);
-                                                $html .= '<div class="item-menu">';
-                                                    $html .= '<img class="dropdown-arrow" src="' . URL_TPL . 'img/dropbox/overflow.svg" alt="...">';
-                                                    $html .= '<div class="dropdown dropdown-menu shadow closed">';
-                                                        $html .= '<a class="dropdown-item nav-link link-dark d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=edit" title="Editar &quot;' . $path . '&quot;">';
-                                                        $html .= '<img class="icon" src="' . URL_TPL . 'img/feather/edit-3.svg" alt=""> Editar</a>';
-                                                        $html .= '<a class="dropdown-item nav-link link-danger d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=delete" title="Eliminar &quot;' . $path . '&quot;">';
-                                                        $html .= '<img class="icon" src="' . URL_TPL . 'img/feather/' . ($isArray ? "folder" : "file") . '-minus.svg" alt=""> Eliminar</a>';
-                                                        if ($isArray) {
-                                                            $html .= '<a class="dropdown-item nav-link link-dark d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=addnote" title="Nuevo apunte aquí">';
-                                                            $html .= '<img class="icon" src="' . URL_TPL . 'img/feather/file-plus.svg" alt=""> Nuevo apunte aquí</a>';
-                                                            $html .= '<a class="dropdown-item nav-link link-dark d-flex gap-2 align-items-center" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '&amp;action=adddir" title="Nueva carpeta aquí">';
-                                                            $html .= '<img class="icon" src="' . URL_TPL . 'img/feather/folder-plus.svg" alt=""> Nueva carpeta aquí</a>';
-                                                        }
-                                                    $html .= '</div>';
-                                                $html .= '</div>';
-                                                $html .= "\r\n" . str_repeat("\t", $level * 2 + 2);
-                                                // item
-                                                $html .= '<a draggable="true" class="item nav-link link-dark" href="' . URL . '?nb=' . $nbName . '&amp;item=' . $path . '">';
-                                                    $html .= basename($key, '.md');
-                                                $html .= '</a>';
-                                                //if array, show its children
-                                                if ($isArray) {
-                                                    $html .= "\r\n";
-                                                    $html .= Tree2Html($value, $nbName, $selectedPath, array_merge($parents, (array) $key));
-                                                }
-                                                $html .= "\r\n" . str_repeat("\t", $level * 2 + 1);
-                                            $html .= "</li>\r\n";
-                                        }
-                                    }
-                                $html .= str_repeat("\t", $level * 2) . "</ul>\r\n";
-                                return $html;
-                            }
-                        echo Tree2Html($notebook['tree'], $notebookName, isset($_GET['item']) ? $_GET['item'] : '');?>
-                        <?php } // notebook tree ?>
+}?>
                         <?php if ($isConfigMode) {
-                        ?>
+	?>
                         <div>
                             <ul class="nav flex-column">
                                 <li class="nav-item"><a class="nav-link" href="<?php echo URL; ?>?action=config&amp;option=myPassword">
-                                <img class="me-2" src="<?php echo URL_TPL; ?>img/feather/key.svg" alt="">Cambiar mi contraseña</a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="<?php echo URL; ?>?action=config&amp;option=addUser">
-                            <img class="me-2" src="<?php echo URL_TPL; ?>img/feather/user-plus.svg" alt="">Agregar un usuario</a>
-                        </li>
-                    </ul>
-                    <?php if (count($users) > 1 && $user['login'] == 'realyussel') {
-                    ?>
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Eliminar usuarios</span>
-                    </h6>
-                    <ul class="nav flex-column">
-                        <?php foreach ($users as $value) {
-                        if ($value['login'] != $user['login']) {?>
-                        <li class="nav-item"><a class="nav-link" href="<?php echo URL; ?>?action=config&amp;option=deleteUser&amp;user=<?php echo $value['login']; ?>">
-                            <img class="me-2" src="<?php echo URL_TPL; ?>img/feather/user-minus.svg" alt="">
-                        <?php echo $value['login']; ?></a>
-                    </li>
-                    <?php } // login = current user
-                    } //foreach?>
-                </ul>
-            </div>
-            <?php } // count($users) > 1 ?>
-            <?php } // isConfigMode ?>
+                                    <img class="me-2" src="<?php echo URL_TPL; ?>img/feather/key.svg" alt="">Cambiar mi contraseña</a>
+                                </li>
+                                <?php if ($isAdmin) {?>
+                                <li class="nav-item"><a class="nav-link" href="<?php echo URL; ?>?action=config&amp;option=addUser">
+                                    <img class="me-2" src="<?php echo URL_TPL; ?>img/feather/user-plus.svg" alt="">Agregar un usuario</a>
+                                </li>
+                                <?php }?>
+                            </ul>
+                            <?php if (count($users) > 1 && $isAdmin) {
+		?>
+                                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                                <span>Eliminar usuarios</span>
+                                </h6>
+                                <ul class="nav flex-column">
+                                <?php foreach ($users as $value) {
+			if ($value['login'] != $user['login']) {?>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="<?php echo URL; ?>?action=config&amp;option=deleteUser&amp;user=<?php echo $value['login']; ?>">
+                                            <img class="me-2" src="<?php echo URL_TPL; ?>img/feather/user-minus.svg" alt=""><?php echo $value['login']; ?></a>
+                                        </li>
+                                    <?php }
+		}?>
+                                </ul>
+                            <?php
+}?>
+                        </div>
+                        <?php
+}?>
         </div>
     </div>
 </nav>

@@ -243,19 +243,23 @@
 .child:nth-child(2) {
     --offset: 1;
     z-index: 3;
+    background: rgb(243, 242, 241);
 }
 
 .child:nth-child(3) {
     --offset: 2;
     z-index: 2;
+    background: rgb(239, 238, 237);
 }
 
 .child:nth-child(4) {
     --offset: 3;
     z-index: 1;
+    background: rgb(235, 234, 233);
 }
 
 .child:nth-child(5) {
     --offset: 4;
     z-index: 0;
+    background: rgb(231, 229, 228);
 }

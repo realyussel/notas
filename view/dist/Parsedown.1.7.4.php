@@ -393,7 +393,7 @@ class Parsedown {
 				 * U+000D CARRIAGE RETURN (CR).
 				 */
 				$language = substr($matches[1], 0, strcspn($matches[1], " \t\n\f\r"));
-				
+
 				$class = 'language-' . $language;
 				if ($language === 'mermaid') {
 					$class = str_replace('language-', '', $class);
@@ -838,8 +838,8 @@ class Parsedown {
 					'name' => 'table',
 					'handler' => 'elements',
 					'attributes' => [
-                        'class' => "table",
-                    ],
+						'class' => "table",
+					],
 				),
 			);
 
@@ -1115,52 +1115,52 @@ class Parsedown {
 		}
 
 		/*
-		$serviceVideo = array(
-			"youtube",
-			"vimeo",
-		);
-		$isVideo = in_array($Link['element']['text'], $serviceVideo);
-		if ($isVideo) {
-			switch ($Link['element']['text']) {
-    			case $serviceVideo[0]:
-    				$attributes = array(
-						'class' => 'embed-responsive-item',
-						'frameborder' => '0',
-						'scrolling' => 'no',
-						'marginheight' => '0',
-						'marginwidth' => '0',
-						'type' => 'text/html',
-						'src' => 'https://www.youtube.com/embed/' . $Link['element']['attributes']['href'] . '?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0',
+					$serviceVideo = array(
+						"youtube",
+						"vimeo",
 					);
-					break;
-				case $serviceVideo[1]:
-    				$attributes = array(
-						'class' => 'embed-responsive-item',
-						'frameborder' => '0',
-						'type' => 'text/html',
-						'src' => 'https://player.vimeo.com/video/' . $Link['element']['attributes']['href'] . '?&title=0&byline=0&portrait=0',
-					);
-					break;
-			}
-			$Inline = array(
-				'extent' => $Link['extent'] + 1,
-				'element' => array(
-					'name' => 'iframe',
-					'attributes' => $attributes,
-				),
-			);	
-		} else {
+					$isVideo = in_array($Link['element']['text'], $serviceVideo);
+					if ($isVideo) {
+						switch ($Link['element']['text']) {
+			    			case $serviceVideo[0]:
+			    				$attributes = array(
+									'class' => 'embed-responsive-item',
+									'frameborder' => '0',
+									'scrolling' => 'no',
+									'marginheight' => '0',
+									'marginwidth' => '0',
+									'type' => 'text/html',
+									'src' => 'https://www.youtube.com/embed/' . $Link['element']['attributes']['href'] . '?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0',
+								);
+								break;
+							case $serviceVideo[1]:
+			    				$attributes = array(
+									'class' => 'embed-responsive-item',
+									'frameborder' => '0',
+									'type' => 'text/html',
+									'src' => 'https://player.vimeo.com/video/' . $Link['element']['attributes']['href'] . '?&title=0&byline=0&portrait=0',
+								);
+								break;
+						}
+						$Inline = array(
+							'extent' => $Link['extent'] + 1,
+							'element' => array(
+								'name' => 'iframe',
+								'attributes' => $attributes,
+							),
+						);
+					} else {
 		*/
-			$Inline = array(
-				'extent' => $Link['extent'] + 1,
-				'element' => array(
-					'name' => 'img',
-					'attributes' => array(
-						'src' => $Link['element']['attributes']['href'],
-						'alt' => $Link['element']['text'],
-					),
+		$Inline = array(
+			'extent' => $Link['extent'] + 1,
+			'element' => array(
+				'name' => 'img',
+				'attributes' => array(
+					'src' => $Link['element']['attributes']['href'],
+					'alt' => $Link['element']['text'],
 				),
-			);
+			),
+		);
 		// }
 
 		$Inline['element']['attributes'] += $Link['element']['attributes'];
@@ -1169,9 +1169,9 @@ class Parsedown {
 		$Inline['element']['attributes']['class'] .= ' img-fluid'; // Todas las iamgenes
 
 		/*
-		if ($isVideo) {
-			unset($Inline['element']['attributes']['target']);
-		}
+			if ($isVideo) {
+				unset($Inline['element']['attributes']['target']);
+			}
 		*/
 
 		return $Inline;
@@ -1204,36 +1204,36 @@ class Parsedown {
 			return;
 		}
 
-			if (preg_match('/^[(]\s*+((?:[^ ()]++|[(][^ )]+[)])++)(?:[ ]+("[^"]*"|\'[^\']*\'))?\s*[)]/', $remainder, $matches)) {
-				$Element['attributes']['href'] = $matches[1];
-				$Element['attributes']['target'] = $this->not_has_http($matches[1]) ? '_self' : '_blank';
+		if (preg_match('/^[(]\s*+((?:[^ ()]++|[(][^ )]+[)])++)(?:[ ]+("[^"]*"|\'[^\']*\'))?\s*[)]/', $remainder, $matches)) {
+			$Element['attributes']['href'] = $matches[1];
+			$Element['attributes']['target'] = $this->not_has_http($matches[1]) ? '_self' : '_blank';
 
-				if (isset($matches[2])) {
-					$Element['attributes']['title'] = substr($matches[2], 1, -1);
-				}
+			if (isset($matches[2])) {
+				$Element['attributes']['title'] = substr($matches[2], 1, -1);
+			}
+
+			$extent += strlen($matches[0]);
+		} else {
+			if (preg_match('/^\s*\[(.*?)\]/', $remainder, $matches)) {
+				$definition = strlen($matches[1]) ? $matches[1] : $Element['text'];
+				$definition = strtolower($definition);
 
 				$extent += strlen($matches[0]);
 			} else {
-				if (preg_match('/^\s*\[(.*?)\]/', $remainder, $matches)) {
-					$definition = strlen($matches[1]) ? $matches[1] : $Element['text'];
-					$definition = strtolower($definition);
-
-					$extent += strlen($matches[0]);
-				} else {
-					$definition = strtolower($Element['text']);
-				}
-
-				if (!isset($this->DefinitionData['Reference'][$definition])) {
-					return;
-				}
-
-				$Definition = $this->DefinitionData['Reference'][$definition];
-
-				$Element['attributes']['target'] = $this->not_has_http($Definition['url']) ? '_self' : '_blank';
-				$Element['attributes']['href'] = $Definition['url'];
-				$Element['attributes']['title'] = $Definition['title'];
+				$definition = strtolower($Element['text']);
 			}
-		
+
+			if (!isset($this->DefinitionData['Reference'][$definition])) {
+				return;
+			}
+
+			$Definition = $this->DefinitionData['Reference'][$definition];
+
+			$Element['attributes']['target'] = $this->not_has_http($Definition['url']) ? '_self' : '_blank';
+			$Element['attributes']['href'] = $Definition['url'];
+			$Element['attributes']['title'] = $Definition['title'];
+		}
+
 		return array(
 			'extent' => $extent,
 			'element' => $Element,

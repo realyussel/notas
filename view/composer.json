@@ -1,8 +1,0 @@
-{
-    "require": {
-        "erusev/parsedown": "^1.7",
-        "erusev/parsedown-extra": "^0.8.1",
-        "benjaminhoegh/parsedown-extended": "^1.1",
-        "ccampbell/chromephp": "^4.1"
-    }
-}

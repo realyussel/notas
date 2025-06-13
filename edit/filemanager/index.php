@@ -3,30 +3,18 @@ require '../../vendor/autoload.php';
 
 define('URL_TPL', '../tpl/');
 
-$handler = PhpConsole\Handler::getInstance();
-$handler->start(); // inicializar manejadores
-PhpConsole\Helper::register(); // registrará la clase global PC
+// $handler = PhpConsole\Handler::getInstance();
+// $handler->start(); // inicializar manejadores
+// PhpConsole\Helper::register(); // registrará la clase global PC
 
 date_default_timezone_set('UTC');
 setlocale(LC_ALL, 'en_US.UTF8');
 error_reporting(0); // Desactivar toda notificación de error
 set_time_limit(20);
 
-require_once '../lib/ext/yoslogin.lib.php';
-require_once '../lib/utils.class.php';
-require_once '../lib/jotter.class.php';
-require_once '../lib/login.class.php';
-
-//check if user is logged in
-$logger = new Login('jotter');
-$user = $logger->authUser();
-
-$use_auth = !$user['isLoggedIn'];
-
 // Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
-$auth_users = array(
-	'realyussel' => 'año1912',
-);
+$use_auth = true;
+$auth_users = array('realyussel' => 'año1912');
 
 // Enable highlight.js (https://highlightjs.org/) on view's page
 $use_highlightjs = true;
@@ -35,7 +23,7 @@ $use_highlightjs = true;
 $highlightjs_style = 'vs';
 
 // Default timezone for date() and time() - http://php.net/manual/en/timezones.php
-$default_timezone = 'Europe/Minsk'; // UTC+3
+$default_timezone = 'America/Mexico_City'; // UTC+3
 
 // Root path for file manager
 $root_path = dirname(dirname(__FILE__)) . '/data'; // $_SERVER['DOCUMENT_ROOT'];
@@ -51,34 +39,25 @@ $http_host = $_SERVER['HTTP_HOST'];
 $iconv_input_encoding = 'CP1251';
 
 // date() format for file modification date
-$datetime_format = 'd.m.y H:i';
+$datetime_format = 'Y-m-d H:i';
 
 //--- EDIT BELOW CAREFULLY OR DO NOT EDIT AT ALL
 
 // if fm included
-if (defined('FM_EMBED')) {
-	$use_auth = false;
-} else {
-	@set_time_limit(600);
+@set_time_limit(600);
+date_default_timezone_set($default_timezone);
 
-	date_default_timezone_set($default_timezone);
-
-	ini_set('default_charset', 'UTF-8');
-	if (version_compare(PHP_VERSION, '5.6.0', '<') && function_exists('mb_internal_encoding')) {
-		mb_internal_encoding('UTF-8');
-	}
-	if (function_exists('mb_regex_encoding')) {
-		mb_regex_encoding('UTF-8');
-	}
-
-	session_cache_limiter('');
-	session_name('filemanager');
-	session_start();
+ini_set('default_charset', 'UTF-8');
+if (version_compare(PHP_VERSION, '5.6.0', '<') && function_exists('mb_internal_encoding')) {
+	mb_internal_encoding('UTF-8');
+}
+if (function_exists('mb_regex_encoding')) {
+	mb_regex_encoding('UTF-8');
 }
 
-if (empty($auth_users)) {
-	$use_auth = false;
-}
+session_cache_limiter('');
+session_name('filemanager');
+session_start();
 
 $is_https = isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1)
 || isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https';
@@ -87,7 +66,7 @@ $is_https = isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['
 $root_path = rtrim($root_path, '\\/');
 $root_path = str_replace('\\', '/', $root_path);
 if (!@is_dir($root_path)) {
-	echo sprintf('<h1>Root path "%s" not found!</h1>', fm_enc($root_path));
+	echo sprintf('<h1>¡No se encontró la ruta raíz "%s"!</h1>', fm_enc($root_path));
 	exit;
 }
 
@@ -129,16 +108,49 @@ if ($use_auth) {
 	} else {
 		// Form
 		unset($_SESSION['logged']);
-		fm_show_header();
-		fm_show_message();
+		fm_add_header();
 		?>
-        <div class="path">
-            <form action="" method="post" style="margin:10px;text-align:center">
-                <input name="fm_usr" value="" placeholder="Username" required>
-                <input type="password" name="fm_pwd" value="" placeholder="Password" required>
-                <input type="submit" value="Login">
-            </form>
-        </div>
+		<style type="text/css">
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+		</style>
+	</head>
+	<body class="text-center">
+		<div class="container-fluid">
+			<main class="form-signin">
+<?php
+fm_show_message();
+		?>
+
+  <form action="" method="post">
+  	<img class="mb-4" src="logo.svg" alt="" width="200" height="138">
+    <div class="form-floating mb-2">
+      <input class="form-control" id="usr" name="fm_usr" value="" placeholder="Usuario" required>
+      <label for="usr">Usuario</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="password" class="form-control" id="pwd" name="fm_pwd" value="" placeholder="Contraseña" required>
+      <label for="pwd">Contraseña</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Enviar</button>
+  </form>
+</main>
+
         <?php
 fm_show_footer();
 		exit;
@@ -840,7 +852,8 @@ if (isset($_GET['view'])) {
 		?>
         <a class="btn btn-outline-secondary" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;unzip=<?php echo urlencode($file) ?>">Descomprimir</a>
         <a class="btn btn-outline-secondary" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;unzip=<?php echo urlencode($file) ?>&amp;tofolder=1" title="Unpack to <?php echo fm_enc($zip_name) ?>">Descomprimir en carpeta</a>
-    <?php }?>
+    <?php
+}?>
         <a class="btn btn-outline-secondary" href="?p=<?php echo urlencode(FM_PATH) ?>">Volver</a>
     </div>
     <div>
@@ -1015,7 +1028,7 @@ foreach ($folders as $f) {
 <tr>
 <td><div class="form-check"><input class="form-check-input" type="checkbox" name="file[]" value="<?php echo fm_enc($f) ?>"></div></td>
 <td><div class="filename"><a href="?p=<?php echo urlencode(trim(FM_PATH . '/' . $f, '/')) ?>"><i class="<?php echo $img ?>"></i><?php echo fm_enc(fm_convert_win($f)) ?></a><?php echo ($is_link ? ' &rarr; <i>' . fm_enc(readlink($path . '/' . $f)) . '</i>' : '') ?></div></td>
-<td>Folder</td><td><?php echo $modif ?></td>
+<td>&nbsp;</td><td><?php echo $modif ?></td>
 <?php if (!FM_IS_WIN): ?>
 <td><a title="Cambiar permisos" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;chmod=<?php echo urlencode($f) ?>"><?php echo $perms ?></a></td>
 <?php endif;?>
@@ -1324,13 +1337,13 @@ function fm_get_filesize($size) {
 	if ($size < 1000) {
 		return sprintf('%s B', $size);
 	} elseif (($size / 1024) < 1000) {
-		return sprintf('%s KiB', round(($size / 1024), 2));
+		return sprintf('%s KB', round(($size / 1024), 2));
 	} elseif (($size / 1024 / 1024) < 1000) {
-		return sprintf('%s MiB', round(($size / 1024 / 1024), 2));
+		return sprintf('%s MB', round(($size / 1024 / 1024), 2));
 	} elseif (($size / 1024 / 1024 / 1024) < 1000) {
-		return sprintf('%s GiB', round(($size / 1024 / 1024 / 1024), 2));
+		return sprintf('%s GB', round(($size / 1024 / 1024 / 1024), 2));
 	} else {
-		return sprintf('%s TiB', round(($size / 1024 / 1024 / 1024 / 1024), 2));
+		return sprintf('%s TB', round(($size / 1024 / 1024 / 1024 / 1024), 2));
 	}
 }
 
@@ -1664,12 +1677,12 @@ function fm_show_nav_path($path) {
 	?>
 
 <nav class="navbar navbar-light bg-light mb-2">
-  <div class="container d-flex flex-wrap justify-content-center">
+  <div class="container-fluid d-flex flex-wrap justify-content-center">
     <a title="<?php echo FM_ROOT_PATH; ?>" class="navbar-brand" href="?p=">
     	<img src="<?php echo URL_TPL; ?>img/feather/home.svg" alt="Home">
     </a>
     <ul class="nav me-auto">
-        <?php
+<?php
 $path = fm_clean_path($path);
 	$sep = ' ';
 	if ($path != '') {
@@ -1687,15 +1700,12 @@ $path = fm_clean_path($path);
 	?>
 	</ul>
 	<div class="d-flex">
-	      	<a class="nav-link" title="Upload" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;upload">
-	      		<img src="<?php echo URL_TPL; ?>img/feather/upload.svg" alt="Upload">
-	    	</a>
-	      	<a class="nav-link" title="New folder" href="#" onclick="newfolder('<?php echo fm_enc(FM_PATH) ?>');return false;">
-	      		<img src="<?php echo URL_TPL; ?>img/feather/folder-plus.svg" alt="New folder">
-	      	</a>
-	    <?php if (FM_USE_AUTH): ?>
-	      	<a class="nav-link" title="Logout" href="?logout=1"><i class="icon-logout"></i></a>
-      	<?php endif;?>
+		<a class="nav-link" title="Upload" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;upload">
+			<img src="<?php echo URL_TPL; ?>img/feather/upload.svg" alt="Subir">
+		</a>
+		<a class="nav-link" title="New folder" href="#" onclick="newfolder('<?php echo fm_enc(FM_PATH) ?>');return false;">
+			<img src="<?php echo URL_TPL; ?>img/feather/folder-plus.svg" alt="Nueva carpeta">
+		</a>
     </div>
   </div>
 </nav>
@@ -1718,10 +1728,9 @@ function fm_show_message() {
 /**
  * Show page header
  */
-function fm_show_header() {
+function fm_add_header() {
 	$sprites_ver = '20160315';
 	header("Content-Type: text/html; charset=utf-8");
-	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 	header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
 	header("Pragma: no-cache");
 	?>
@@ -1729,9 +1738,20 @@ function fm_show_header() {
 <html>
 <head>
 <meta charset="utf-8">
-<title>PHP File Manager</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../../icon/32.png" type="image/png">
+<link rel="icon" href="../../icon/32.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" sizes="180x180" href="../../icon/180.png">
+
+<title>archivos</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="../../dist/bootstrap-icons/font/bootstrap-icons.css">
+<?php
+}
+function fm_show_header() {
+	fm_add_header();
+	?>
 <style>
 .table-sm td.wbtngroup {
 	padding-top: 2px;
@@ -1772,8 +1792,6 @@ i[class^='bi-'] {
     color: #F7D774;
 }
 </style>
-<link rel="icon" href="<?php echo FM_SELF_URL ?>?img=favicon" type="image/png">
-<link rel="shortcut icon" href="<?php echo FM_SELF_URL ?>?img=favicon" type="image/png">
 <?php if (isset($_GET['view']) && FM_USE_HIGHLIGHTJS): ?>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/<?php echo FM_HIGHLIGHTJS_STYLE ?>.min.css">
 <?php endif;?>
@@ -1783,15 +1801,16 @@ i[class^='bi-'] {
 			<div class="container-fluid d-grid align-items-center">
 				<div class="d-flex align-items-center">
 					<div class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none me-auto">
-						<img src="../../view/dist/y-dark.svg" alt="" width="40" height="40" class="me-2">
+						<img src="../../icon/fm.svg" alt="" width="40" height="40" class="me-2">
 						<span class="fs-4 px-2">Administrador de archivos</span>
 					</div>
-					<a href="../" class="btn btn-outline-light text-end">Editor</a>
+					<?php if (FM_USE_AUTH): ?>
+	      				<a class="btn btn-outline-light text-end" title="Logout" href="?logout=1">Cerrar sesión</a>
+      				<?php endif;?>
 				</div>
 			</div>
 		</header>
-
-<div class="container">
+	<div class="container-fluid">
 <?php
 }
 
@@ -1865,15 +1884,6 @@ function fm_show_image($img) {
  */
 function fm_get_images() {
 	return array(
-		'favicon' => 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
-bWFnZVJlYWR5ccllPAAAAZVJREFUeNqkk79Lw0AUx1+uidTQim4Waxfpnl1BcHMR6uLkIF0cpYOI
-f4KbOFcRwbGTc0HQSVQQXCqlFIXgFkhIyvWS870LaaPYH9CDy8vdfb+fey930aSUMEvT6VHVzw8x
-rKUX3N3Hj/8M+cZ6GcOtBPl6KY5iAA7KJzfVWrfbhUKhALZtQ6myDf1+X5nsuzjLUmUOnpa+v5r1
-Z4ZDDfsLiwER45xDEATgOI6KntfDd091GidzC8vZ4vH1QQ09+4MSMAMWRREKPMhmsyr6voYmrnb2
-PKEizdEabUaeFCDKCCHAdV0wTVNFznMgpVqGlZ2cipzHGtKSZwCIZJgJwxB38KHT6Sjx21V75Jcn
-LXmGAKTRpGVZUx2dAqQzSEqw9kqwuGqONTufPrw37D8lQFxCvjgPXIixANLEGfwuQacMOC4kZz+q
-GdhJS550BjpRCdCbAJCMJRkMASEIg+4Bxz4JwAwDSEueAYDLIM+QrOk6GHiRxjXSkJY8KUCvdXZ6
-kbuvNx+mOcbN9taGBlpLAWf9nX8EGADoCfqkKWV/cgAAAABJRU5ErkJggg==',
 		'sprites' => 'iVBORw0KGgoAAAANSUhEUgAAAYAAAAAgCAMAAAAscl/XAAAC/VBMVEUAAABUfn4KKipIcXFSeXsx
 VlZSUlNAZ2c4Xl4lSUkRDg7w8O/d3d3LhwAWFhYXODgMLCx8fHw9PT2TtdOOAACMXgE8lt+dmpq+
 fgABS3RUpN+VUycuh9IgeMJUe4C5dUI6meKkAQEKCgoMWp5qtusJmxSUPgKudAAXCghQMieMAgIU
