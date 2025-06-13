@@ -1,0 +1,28 @@
+{
+	"name": "Yussel Theme - Default",
+	"assets": {
+		"css": [
+			"build/bootstrap/bootstrap.min.css",
+			"build/bootstrap/docs.css",
+			"build/bootstrap/embed.css",
+			"build/github/5.1.0/github-markdown.min.css",
+			"build/md.css",
+			"build/theme.css",
+			"build/components.css"
+		],
+		"head-js": [],
+		"js": [
+			"build/jquery/jquery-3.6.0.min.js",
+			"build/bootstrap/bootstrap.bundle.min.js",
+			"build/theme.js"
+		],
+		"404-js": [
+			"build/lottie/lottie-animator.js",
+			"build/lottie/lottie-anim-site-connection-timeout.js"
+		],
+		"404-css": [
+			"build/lottie/lottie-animation.css",
+			"build/400.css"
+		]
+	}
+}

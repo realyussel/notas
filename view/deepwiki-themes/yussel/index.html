@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>{{doc_title}} &raquo; {{site_name}}</title>
+		<meta content="Desde notas simples y listas de tareas pendientes, hasta artículos y revistas, wikis y un segundo cerebro." name="description">
+    	<meta content="width=device-width,initial-scale=1" name="viewport">
+		<link rel="icon" href="../icon/32.png" type="image/png">
+    	<link rel="icon" href="../icon/32.svg" type="image/svg+xml">
+    	<link rel="apple-touch-icon" sizes="180x180" href="../icon/180.png">
+
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		{{html_head}}
+		<link rel="stylesheet" href="https://yussel.com.mx/asset/css/apercu.css">
+		
+		<!-- KaTeX -->
+		<link rel="stylesheet" href="./KaTeX/katex.min.css">
+		<script defer src="./KaTeX/katex.min.js"></script>
+		<script defer src="./KaTeX/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+		<!-- prism -->
+		<link rel="stylesheet" href="./prism/prism.css">
+		<script defer src="./prism/prism.js"></script>
+		<!-- Mermaid -->
+		<script defer src="./mermaid/mermaid.min.js"></script>
+	</head>
+	<body>
+		{{header}}
+		<nav id="subnavbar-nav" class="bd-subnavbar" aria-label="Secondary navigation">
+			{{doc_heading}}
+			<div class="scroll-line"></div>
+		</nav>
+		<div class="container-xxl my-md-4 bd-layout">
+			<aside class="bd-sidebar">
+				<nav id="wiki-nav" class="bd-links collapse" role="navigation">
+					{{nav}}
+				</nav>
+			</aside>
+			<main class="bd-main order-1">
+				<div class="bd-intro ps-lg-4">
+					{{doc_content}}
+				</div>
+				<div class="bd-toc mt-4 mb-5 my-md-0 ps-xl-3 mb-lg-5 text-muted">
+					{{doc_index}}
+				</div>
+			</main>
+		</div>
+		{{footer}}
+		{{body_footer}}
+	</body>
+</html>

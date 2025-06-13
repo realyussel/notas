@@ -1,0 +1,11 @@
+{
+    "require": {
+        "jajo/jsondb": "^1.5",
+        "jeroen/json-dump-reader": "^2.0",
+        "cebe/php-openapi": "^1.3",
+        "netresearch/jsonmapper": "^1.6",
+        "me-io/php-lodash": "^2.0", 
+        "mischiefcollective/colorjizz": "^1.0",
+        "mexitek/phpcolors": "^1.0.4"
+    }
+}
