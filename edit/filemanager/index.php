@@ -12,9 +12,10 @@ setlocale(LC_ALL, 'en_US.UTF8');
 error_reporting(0); // Desactivar toda notificación de error
 set_time_limit(20);
 
-// Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
-$use_auth = true;
-$auth_users = array('realyussel' => 'año1912');
+// Users configuration is now loaded from external file
+$config = include __DIR__ . '/config.php';
+$use_auth = $config['use_auth'];
+$auth_users = $config['auth_users'];
 
 // Enable highlight.js (https://highlightjs.org/) on view's page
 $use_highlightjs = true;
